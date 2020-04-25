@@ -2,78 +2,43 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Home from '../views/Home'
-import Classify from '../views/classify/index.vue'
-import About from '../views/about/index.vue'
-import Detail from '../views/detail'
-import Favorite from '../views/favorite/index.vue'
-import Feedback from '../views/feedback/index.vue'
-import History from '../views/history'
-import Login from '../views/login'
-import Regist from '../views/regist'
-import Mine from '../views/mine'
-import Search from '../views/search'
-import SerachResult from '../views/search-result/index.vue'
+import Classify from '../views/Classify'
+// import Hello from '../views/Hello'
+import Favorite from '../views/Hello/Favorite'
+import History from '../views/Hello/History'
+import Login from '../views/Login'
+import My from '../views/My'
+import Ranking from '../views/Ranking'
+import Register from '../views/Register'
+import Search from '../views/Search'
+import SearchResult from '../views/SearchResult'
+import Vip from '../views/Vip'
+import Bigbookid from '../views/Bigbookid'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    component: Home
-  },
-  {
-    path: '/classify',
-    component: Classify
-  },
-  {
-    path: '/about',
-    component: About
-  },
-  {
-    path: '/detail',
-    component: Detail
-  },
-  {
-    path: '/favorite',
-    component: Favorite
-  },
-  {
-    path: '/feedback',
-    component: Feedback
-  },
-  {
-    path: '/history',
-    component: History
-  },
-  {
-    path: '/login',
-    component: Login
-  },
-  {
-    path: '/regist',
-    component: Regist
-  },
-  {
-    path: '/mine',
-    component: Mine
-  },
-  {
-    path: '/search',
-    component: Search
-  },
-  {
-    path: '/serach-result',
-    component: SerachResult
-  },
-  {
-    path: '/home',
-    component: Home
-  }
-
-]
-
 const router = new VueRouter({
-  routes
+  routes: [
+    { path: '/home', component: Home },
+    { path: '/classify', component: Classify },
+    {
+      path: '/history',
+      component: History
+    },
+    {
+      path: '/favorite',
+      component: Favorite
+    },
+    { path: '/login', component: Login },
+    { path: '/bigbookid', component: Bigbookid },
+    { path: '/my', component: My },
+    { path: '/ranking', component: Ranking },
+    { path: '/register', component: Register },
+    { path: '/search', component: Search },
+    { path: '/search-result', component: SearchResult },
+    { path: '/vip', component: Vip },
+    { path: '/', redirect: '/home' }
+  ]
 })
 
 export default router

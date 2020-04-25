@@ -32,6 +32,5 @@ instance.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
 // 暴露这个实例
 export default instance

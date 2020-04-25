@@ -44,19 +44,3 @@
     docEl.removeChild(fakeBody)
   }
 }(window, document))
-
-// (function (doc, win) {
-//      var docEl = doc.documentElement,
-//           resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-//           recalc    = function () {
-//                  var clientWidth = docEl.clientWidth;
-//                  if (clientWidth>=540) {
-//                     clientWidth = 540;
-//                  };
-//                  if (!clientWidth) return;
-//                docEl.style.fontSize = 100 * (clientWidth / 540) + 'px';
-//           };
-//           if (!doc.addEventListener) return;
-//           win.addEventListener(resizeEvt, recalc, false);
-//           doc.addEventListener('DOMContentLoaded', recalc, false);
-// })(document, window);
