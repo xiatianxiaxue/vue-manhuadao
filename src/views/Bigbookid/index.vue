@@ -82,31 +82,34 @@
 </template>
 
 <script>
+import { unformat } from '../../utils/apiHeader.js'
 import { getDetailist } from '../../api/cartoon.js'
 export default {
   name: 'Bigbookid',
   data () {
     return {
       title: this.$route.query.keyword,
-      bookstoreid: this.$route.query.bookstoreid
+      bookstoreid: this.$route.query.bookstore_id
     }
   },
   methods: {
-    getDetailist (bookstoreid) {
-      getDetailist(bookstoreid).then(res => {
-        if (res.code === 200) {
-          // this.searchResult = res.info
-        } else {
-          console.log('err')
-        }
-      }).catch(err => {
-        console.log(err)
-        alert('网络请求有误,请稍后再试！')
-      })
-    }
+    // getDetailist (bookstoreid) {}
+
   },
   created (bookstoreid) {
-    this.getDetailist(bookstoreid)
+    // this.getDetailist(bookstoreid)
+    getDetailist(bookstoreid).then(res => {
+      if (res.code === 200) {
+        console.log(unformat(res.info))
+        console.log(111, bookstoreid)
+        // this.searchResult = res.info
+      } else {
+        console.log('err')
+      }
+    }).catch(err => {
+      console.log(err.code_msg)
+      alert('网络请求有误,请稍后再试！！')
+    })
   }
 }
 

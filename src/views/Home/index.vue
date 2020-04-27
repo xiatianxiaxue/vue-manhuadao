@@ -1,18 +1,23 @@
 <template>
   <div class="page-home">
     <index-header></index-header>
-
     <div class="index-main">
-      <swiper :autoplay='1000' class="my-swiper" @change="onChange" v-if="bannerList.length > 0">
-        <swiper-item v-for="item in bannerList" :key="item.id">
+      <!-- :autoplay='1000' -->
+      <swiper class="my-swiper"  v-if="bannerList.length > 0">
+        <swiper-item v-for="item in bannerList" :key="item.id"
+        @lunboshijian="swiperclk()"
+        >
           <img :src="item.imageurl" alt />
         </swiper-item>
       </swiper>
-
       <index-nav></index-nav>
-
-      <index-recommend v-for="item in recommendList" :key="item.specialid" :info="item"></index-recommend>
-
+      <!-- item.bigbook_id -->
+     <IndexRecommend
+      v-for="item in recommendList"
+      :key="item.specialid"
+      :info="item"
+      @clickitem="gitHomelist(bigbookid)"
+      ></IndexRecommend>
       <div class="my-icp">
           <a class="record" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202006214" target="_blank">
               <img class="img" src="../../assets/icon/item-rank-other.png">
@@ -30,16 +35,15 @@
 // 那么相对路径也需要去修改, 如果使用 @ 别名的方式。就不需要去修改这个路径了
 // import Swiper from '@/components/Swiper/Swiper.vue'
 // import SwiperItem from '@/components/Swiper/SwiperItem.vue'
-// =>
+// => // , gitHomelist,
 import { Swiper, SwiperItem } from '@/components/Swiper'
 import IndexNav from './components/IndexNav'
 import IndexRecommend from './components/IndexRecommend'
 import IndexHeader from './components/IndexHeader'
 import { getBanner, getIndexRecommend } from '@/api/cartoon'
-
+// import { unformat } from '../../utils/apiHeader.js'
 export default {
   name: 'Home',
-
   components: {
     Swiper,
     SwiperItem,
@@ -54,16 +58,33 @@ export default {
       // 1. 数据放在那里，data? props? computed? state? getter?
       // 2. 数据格式，string? object? number? array? ...
       bannerList: [],
-
+      bigbookid: '',
       recommendList: []
     }
   },
-
+  computed: {
+    // bigbookid () {
+    //   return this.bigbookid.map((item) => {
+    //     return {
+    //       bigbookid: item.bigbookid
+    //     }
+    //   })
+    // }
+  },
   methods: {
-    onChange (index) {
-      // console.log('hello', index)
+    // 伦比图点击事件
+    // onclick (index, itemIid) {
+    //   this.$router.push({
+    //     path: '/bigbookid',
+    //     query: {
+    //       bigbookid: itemIid
+    //     }
+    //   })
+    // console.log('hello', index)
+    // },
+    swiperclk (b) {
+      console.log(b)
     },
-
     getBanner () {
       getBanner()
         .then(res => {
@@ -97,12 +118,58 @@ export default {
           console.log(err)
           alert('网络异常，请稍后重试')
         })
+    },
+    // ？？？？ 首页点击进详情页没有做.
+    gitHomelist (bigbookid) {
+      // const a = JSON.stringify(bigbookid.name)
+      // const a = this.recommendList.map((item, index) => { console.log(item, index) })
+      console.log(11, bigbookid)
+      // const item = this.recommendList.map((item) => { return item[0] })
+      // console.log(this.recommendList)
+      // console.log(JSON.parse(bigbookid))
+      // this.bigbookid = JSON.parse(unformat(res.info))
+      // this.bigbookid = this.bigbookid.comicssource[0].book_id
+      this.$router.push(`/bigbookid?bigbookid=${bigbookid}`)
+      // gitHomelist(bigbookid)
+      //   .then(res => {
+      //     // console.log(bigbookid)
+      //     if (res.code === 200) {
+      //       console.log(11, res)
+      //       //   console.log(this.$route.recommendList)
+      //       //   // t跳转去详情页面 JSON.parse
+      //       this.bigbookid = JSON.parse(unformat(res.info))
+      //       //   console.log(bigbookid)
+      //       this.bigbookid = this.bigbookid.comicssource[0].book_id
+      //       console.log(this.bigbookid)
+      //       // console.log(100, this.bigbookid.comicssource[0].book_id)
+      //       this.$router.push({
+      //         path: '/bigbookid',
+      //         query: {
+      //           bigbookid: this.bigbookid
+      //         }
+      //       })
+      //     } else {
+      //     // console.log(2)
+      //       alert(res.code.mgs)
+      //     }
+      //   })
+      //   .catch(err => {
+      //     // console.log(3)
+      //     console.log(err)
+      //     // alert('网络有误 请重新再来')
+      //   })
     }
+
   },
 
   created () {
+    // console.log(this.$route.recommendList)
     this.getBanner()
     this.getIndexRecommend()
+    // this.gitHomelist()
+    // const obj = unformat('hr+sSJAnk4MKRJ1MeJFkRq9dXwrmRIScvWCezlL19Ig=:')
+    // console.log(222, obj)
+    // this.bigbookid = obj
   }
 }
 </script>

@@ -41,6 +41,24 @@ export const getIndexRecommend = () => {
   })
 }
 
+/// 获取首页每一个元素的接口  comic_v2/collectlist_bigbook
+/// 需要去解密 /comic_v2/bigbooksource_v3?apptype=8&appversion=1.0&channel=web-app
+export const gitHomelist = (bigbookid) => {
+  return request({
+    // url: '/api/comic_v2/bigbooksource_v3',
+    url: '/api/comic_v2/bigbooksource_v3',
+    method: 'POST',
+    params: {
+      apptype: 8,
+      appversion: 1.0,
+      channel: 'web-app'
+    },
+    data: format({
+      bigbookid: bigbookid
+    })
+  })
+}
+
 /**
  * 获取分类类型
  */
@@ -97,7 +115,8 @@ export const getRankList = (ranktype, pageno = 1, pagesize = 20) => {
     params: {
       apptype: 8,
       appversion: '1.0',
-      channel: 'web-app'
+      channel: 'web-app',
+      cpid: 0
     },
     data: format({
       ranktype,
@@ -176,17 +195,22 @@ export const gitViplist = (res) => {
     })
   })
 }
-//  漫画详情页面的接口
-// https://m.manhuadao.cn/detail.html?bigbookid=110728&cpid=0
+// 漫画详情页面的接口
+// FROM DATA Scd743PP6cinUQV+B108QR2Qq3YeZKLMq/d4kIDzK/g=:
+// /comic_v2/comicsdetail_v2?apptype=8&appversion=1.0&channel=web-app √
 // https://m.manhuadao.cn/detail.html?bigbookid=110650&cpid=0
 // /*https://m.manhuadao.cn/detail.html?bigbookid=13544&cpid=0
-export const getDetailist = (bigbookid) => {
+export const getDetailist = (bookstoreid) => {
   return request({
-    url: '/manhua/detail.html',
-    method: 'GET',
+    url: '/comic_v2/comicsdetail_v2',
+    method: 'POST',
     params: {
-      bigbookid: 'bigbookid',
-      cpid: 0
-    }
+      apptype: 8,
+      appversion: 1.0,
+      channel: 'web-app'
+    },
+    data: format({
+      bigbookid: bookstoreid
+    })
   })
 }

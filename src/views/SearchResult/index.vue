@@ -6,7 +6,11 @@
       <span class="header-title font-32">绝世飞刀</span>
     </header> -->
     <section class="search-result-list">
-       <div class="list-item" v-for="item in searchResult" :key="item.id" @click="Bobigbookid(item.name,item.bookstore_id)">
+       <div
+       class="list-item "
+       v-for="item in searchResult "
+       :key="item.id "
+       @click="Bobigbookid(item.id)">
             <div class="item-pic"
             :style="`background-image: url('${item.coverurl}')`"></div>
             <div class="item-info">
@@ -61,10 +65,10 @@ export default {
         alert('网络请求有误,请稍后再试！')
       })
     },
-    Bobigbookid (keyword, bookstoreid) {
+    Bobigbookid (bookstorid) {
       // this.$router.push(`https://m.manhuadao.cn/detail.html?bigbookid=${bookstoreid}&cpid=0`)
       // https://m.manhuadao.cn/detail.html?bigbookid=110650&cpid=0
-      this.$router.push(`/Bigbookid?keyword=${keyword}&bookstore_id=${bookstoreid}`)
+      this.$router.push(`/Bigbookid?bookstore_id=${bookstorid}`)
     }
   },
   created (keyword) {

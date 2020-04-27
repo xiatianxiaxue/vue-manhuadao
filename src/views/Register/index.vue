@@ -1,36 +1,84 @@
 <template>
-  <div class="page-register">
+  <div class="page-login">
     <header class="header-photo">
-        <div class="icon-back"></div>
-        <div class="icon-reg font-30">注册</div>
-        <div class="header-pic"></div>
+      <div class="icon-back"></div>
+      <div class="header-pic"></div>
     </header>
-    <section class="login-main">
-        <div class="input-group font-24">
-            <label>邮 箱：</label>
-            <input type="text" placeholder="请输入您的邮箱">
-        </div>
-        <div class="input-group font-24 password">
-            <label>密 码：</label>
-            <input type="password" placeholder="请输入您的密码">
-            <span class="forget font-20">忘记密码?</span>
-        </div>
-        <div class="login-btn font-26">登录</div>
+    <section class="register-main">
+      <p class="input-group font-24">
+       <label>邮<span class="hide" >邮箱</span>箱：</label>
+       <input type="text" placeholder="请输入你的邮箱" name="username" id="email" >
+      </p>
+      <p class="input-group font-24 password">
+        <label>密<span class="hide">密码</span>码：</label>
+        <input type="password" placeholder="请设置6-16位的字母、数字、符号的密码" name="password" id="password" >
+      </p>
+      <p class="input-group font-24 password">
+        <label>确认密码：</label>
+        <input type="password" placeholder="请再次输入你的密码" name="repassword" id="repassword">
+      </p>
+      <div class="register-btn font-26">注册</div>
     </section>
-    <footer class="login-third">
-        <p class="third-title font-20">或者用以下方式登录</p>
-        <div class="third-group">
-            <div class="login-qq"></div>
-
-            <div class="login-weibo"></div>
-        </div>
+    <footer class="register-footer">
+      <p class="content font-24">已有账号？马上<span class="go-login" @click="gologin">登录</span></p>
     </footer>
   </div>
 </template>
+<script>
+document.querySelector("input[type='button']").onclick = function () {
+  // 点击事件中获取用户名密码
+  var username = document.querySelector('#email').value.trim()
+  // console.log(document.querySelector("#password"));
+  var password = document.querySelector('#password').value.trim()
+  // 进行验证数据
+  if (username === '') {
+    alert('用户名不能为空！')
+    return
+  }
+  var reg = /^[1-9a-zA-Z]\w{5,17}@[0-9a-zA-Z]+\.(com|cn)$/
+  if (!reg.test(username)) {
+    alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
+    return
+  }
+  if (password === '') {
+    alert('密码不能为空！')
+    return
+  }
+  var regg = /^[0-9a-zA-Z]{6,16}$/
+  if (!regg.test(password)) {
+    alert('密码必须是数字和字母组成的6~16位')
+    return
+  }
+  var repassword = document.querySelector('#repassword').value.trim()
+  if (repassword === '') {
+    alert('确认密码不能为空！')
+    return
+  }
+  var regs = /^[0-9a-zA-Z]{6,16}$/
+  if (!regs.test(repassword)) {
+    alert('确认密码必须是数字和字母组成的6~16位')
+    return
+  }
+  if (password !== repassword) {
+    alert('两次密码不一致！')
+    return
+  }
+  var agreement = document.querySelector('#agreement')
+  // 判断复选框有没有被选中，就判断他的checked属性是否为true和false
+  if (!agreement.checked) {
+    alert('请同意协议')
+  }
+}
 
+</script>
 <script>
 export default {
-  name: 'Register'
+  name: 'Register',
+  methods: {
+    gologin () {
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 <style>
@@ -202,14 +250,14 @@ export default {
       background-size: cover
   }
 
-  .login-main {
+  .register-main {
       box-sizing: border-box;
       width: 10rem;
       margin: .53333333rem auto;
       padding: 0 .90666667rem
   }
 
-  .login-main .input-group {
+  .register-main .input-group {
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
@@ -221,38 +269,40 @@ export default {
       position: relative
   }
 
-  .login-main .input-group input {
-      width: 5.33333333rem;
+  .register-main .input-group input {
+      width: 6.13333333rem;
       border: none
   }
 
-  .login-main .input-group input::-webkit-input-placeholder {
+  .register-main .input-group input::-webkit-input-placeholder {
       letter-spacing: normal
   }
 
-  .login-main .input-group input::-moz-placeholder {
+  .register-main .input-group input::-moz-placeholder {
       letter-spacing: normal
   }
 
-  .login-main .input-group input:-ms-input-placeholder {
+  .register-main .input-group input:-ms-input-placeholder {
       letter-spacing: normal
   }
 
-  .login-main .input-group .forget {
-      color: #5094f9;
-      position: absolute;
-      right: 0
+  .register-main .input-group .warning {
+      color: #d20
   }
 
-  .login-main .password {
+  .register-main .input-group .hide {
+      color: #fff
+  }
+
+  .register-main .password {
       margin: .8rem 0 0
   }
 
-  .login-main .password input {
+  .register-main .password input {
       letter-spacing: .2em
   }
 
-  .login-main .login-btn {
+  .register-main .register-btn {
       height: .96rem;
       margin: .53333333rem 0 0;
       line-height: .96rem;
@@ -262,62 +312,19 @@ export default {
       border-radius: 6px
   }
 
-  .login-third {
+  .register-footer {
       box-sizing: border-box;
       width: 10rem;
-      margin: .74666667rem auto;
-      padding: 0 .90666667rem;
-      position: relative
+      margin: 0 auto;
+      padding: 0 .90666667rem .42666667rem
   }
 
-  .login-third .third-title {
-      width: 2.93333333rem;
-      margin: auto;
-      text-align: center;
-      background-color: #fff;
-      position: absolute;
-      z-index: 999;
-      top: -.18666667rem;
-      left: 0;
-      right: 0
+  .register-footer .content {
+      text-align: right
   }
 
-  .login-third .third-group {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-justify-content: space-around;
-      justify-content: space-around;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-      padding: .61333333rem 1.06666667rem 0;
-      border-top: 1px solid #ddd
-  }
-
-  .login-third .third-group .login-weibo {
-      width: 1.2rem;
-      height: 1.2rem;
-      background-size: contain
-  }
-
-  .login-third .third-group .login-qq {
-      width: 1.2rem;
-      height: 1.2rem;
-      background-size: contain
-  }
-
-  .login-third .third-group .login-wechat {
-      width: 1.2rem;
-      height: 1.2rem;
-      /* background: url(../asset/login/icon-wechat.4d2f572f.png) no-repeat; */
-      background-size: contain
-  }
-
-  .login-third .only-group {
-      -webkit-box-pack: center!important;
-      -webkit-justify-content: center!important;
-      justify-content: center!important
+  .register-footer .content .go-login {
+      color: #5094f7
   }
 
   .tips-toast {
@@ -349,7 +356,7 @@ export default {
   }
 
   @media (orientation: landscape) and (max-width:736px) {
-      .header-photo,.login-main,.login-third {
+      .header-photo,.register-footer,.register-main {
           width:100%!important
       }
   }

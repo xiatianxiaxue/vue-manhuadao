@@ -35,16 +35,16 @@
             <span class="icon-clock" ></span>
             <span class="item-text">历史</span>
         </a>
-        <a class="menu-item" href="about.html?cpid=0">
-            <span class="icon-mhd"></span>
-            <span class="item-text">关于漫画岛</span>
-        </a>
         <a class="menu-item" href="feedback.html?cpid=0">
             <span class="icon-pencil"></span>
             <span class="item-text">反馈</span>
         </a>
+        <a class="menu-item" >
+            <span class="icon-mhd"></span>
+            <span class="item-text">关于我们</span>
+        </a>
     </section>
-
+    <footer class="mine-logout font-30" @click="gologin">退出登录</footer>
   </div>
 </template>
 
@@ -57,8 +57,10 @@ export default {
     },
     gorfhistory () {
       this.$router.push('/history')
+    },
+    gologin () {
+      this.$router.push('/login')
     }
-
   }
 }
 </script>

@@ -1,33 +1,41 @@
 <template>
-  <div class="page-login">
-	<header class="header-photo">
-    <div class="icon-back"></div>
-    <div class="header-pic"></div>
-	</header>
-  <section class="register-main">
-    <p class="input-group font-24">
-     <label>邮<span class="hide">邮箱</span>箱：</label>
-     <input type="text" placeholder="请输入你的邮箱">
-    </p>
-    <p class="input-group font-24 password">
-      <label>密<span class="hide">密码</span>码：</label>
-      <input type="password" placeholder="请设置6-16位的字母、数字、符号的密码">
-    </p>
-    <p class="input-group font-24 password">
-      <label>确认密码：</label>
-      <input type="password" placeholder="请再次输入你的密码">
-    </p>
-    <div class="register-btn font-26">注册</div>
-  </section>
-  <footer class="register-footer">
-    <p class="content font-24">已有账号？马上<span class="go-login">登录</span></p>
-  </footer>
+  <div class="page-register">
+    <header class="header-photo">
+        <div class="icon-back"></div>
+        <div class="icon-reg font-30" @click="goregister">注册</div>
+        <div class="header-pic"></div>
+    </header>
+    <section class="login-main">
+        <div class="input-group font-24">
+            <label>邮 箱：</label>
+            <input type="text" placeholder="请输入您的邮箱">
+        </div>
+        <div class="input-group font-24 password">
+            <label>密 码：</label>
+            <input type="password" placeholder="请输入您的密码">
+            <span class="forget font-20">忘记密码?</span>
+        </div>
+        <div class="login-btn font-26">登录</div>
+    </section>
+    <footer class="login-third">
+        <p class="third-title font-20">或者用以下方式登录</p>
+        <div class="third-group">
+            <div class="login-qq"></div>
+
+            <div class="login-weibo"></div>
+        </div>
+    </footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  methods: {
+    goregister () {
+      this.$router.push('/register')
+    }
+  }
 }
 </script>
 <style>
@@ -199,14 +207,14 @@ export default {
       background-size: cover
   }
 
-  .register-main {
+  .login-main {
       box-sizing: border-box;
       width: 10rem;
       margin: .53333333rem auto;
       padding: 0 .90666667rem
   }
 
-  .register-main .input-group {
+  .login-main .input-group {
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
@@ -218,40 +226,38 @@ export default {
       position: relative
   }
 
-  .register-main .input-group input {
-      width: 6.13333333rem;
+  .login-main .input-group input {
+      width: 5.33333333rem;
       border: none
   }
 
-  .register-main .input-group input::-webkit-input-placeholder {
+  .login-main .input-group input::-webkit-input-placeholder {
       letter-spacing: normal
   }
 
-  .register-main .input-group input::-moz-placeholder {
+  .login-main .input-group input::-moz-placeholder {
       letter-spacing: normal
   }
 
-  .register-main .input-group input:-ms-input-placeholder {
+  .login-main .input-group input:-ms-input-placeholder {
       letter-spacing: normal
   }
 
-  .register-main .input-group .warning {
-      color: #d20
+  .login-main .input-group .forget {
+      color: #5094f9;
+      position: absolute;
+      right: 0
   }
 
-  .register-main .input-group .hide {
-      color: #fff
-  }
-
-  .register-main .password {
+  .login-main .password {
       margin: .8rem 0 0
   }
 
-  .register-main .password input {
+  .login-main .password input {
       letter-spacing: .2em
   }
 
-  .register-main .register-btn {
+  .login-main .login-btn {
       height: .96rem;
       margin: .53333333rem 0 0;
       line-height: .96rem;
@@ -261,19 +267,62 @@ export default {
       border-radius: 6px
   }
 
-  .register-footer {
+  .login-third {
       box-sizing: border-box;
       width: 10rem;
-      margin: 0 auto;
-      padding: 0 .90666667rem .42666667rem
+      margin: .74666667rem auto;
+      padding: 0 .90666667rem;
+      position: relative
   }
 
-  .register-footer .content {
-      text-align: right
+  .login-third .third-title {
+      width: 2.93333333rem;
+      margin: auto;
+      text-align: center;
+      background-color: #fff;
+      position: absolute;
+      z-index: 999;
+      top: -.18666667rem;
+      left: 0;
+      right: 0
   }
 
-  .register-footer .content .go-login {
-      color: #5094f7
+  .login-third .third-group {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: space-around;
+      justify-content: space-around;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      padding: .61333333rem 1.06666667rem 0;
+      border-top: 1px solid #ddd
+  }
+
+  .login-third .third-group .login-weibo {
+      width: 1.2rem;
+      height: 1.2rem;
+      background-size: contain
+  }
+
+  .login-third .third-group .login-qq {
+      width: 1.2rem;
+      height: 1.2rem;
+      background-size: contain
+  }
+
+  .login-third .third-group .login-wechat {
+      width: 1.2rem;
+      height: 1.2rem;
+      /* background: url(../asset/login/icon-wechat.4d2f572f.png) no-repeat; */
+      background-size: contain
+  }
+
+  .login-third .only-group {
+      -webkit-box-pack: center!important;
+      -webkit-justify-content: center!important;
+      justify-content: center!important
   }
 
   .tips-toast {
@@ -305,7 +354,7 @@ export default {
   }
 
   @media (orientation: landscape) and (max-width:736px) {
-      .header-photo,.register-footer,.register-main {
+      .header-photo,.login-main,.login-third {
           width:100%!important
       }
   }

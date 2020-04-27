@@ -65,6 +65,8 @@ export default {
           const info = JSON.parse(unformat(res.info))
           // console.log(info)
           this.viplist = info.comicsList
+          // console.log(1, this.viplist)
+          // console.log(2, this.viplisttt)
         } else {
           alert('网络异常, 请稍后再试')
         }
@@ -75,8 +77,8 @@ export default {
   },
   created () {
     this.gitViplist()
-    // const obj = unformat('60P3rkydkWQtGGFaEXA6VXndgfVtz7WswIy520lpgbkXfjeBKiHrgQ8HsU8Mec14:')
-    // console.log(obj)
+    const obj = unformat('Scd743PP6cinUQV+B108QR2Qq3YeZKLMq/d4kIDzK/g=:')
+    console.log(obj)
   }
 }
 </script>

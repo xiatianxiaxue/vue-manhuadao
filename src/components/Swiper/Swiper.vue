@@ -24,7 +24,7 @@ export default {
   props: {
     autoplay: {
       type: Number,
-      default: 1000
+      default: 0
     },
     loop: {
       type: Boolean,
@@ -57,7 +57,7 @@ export default {
           // this.realIndex => this swiper实例
           // this.$emit()   => this 当前组件实例
 
-          that.$emit('change', this.realIndex)
+          that.$emit('click', this.realIndex)
         },
       },
     });

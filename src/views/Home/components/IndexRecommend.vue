@@ -10,8 +10,13 @@
     </div>
 
     <!-- 一个二个 -->
-    <div v-if="info.comicsviewtype === 1" class="recommend-type-1">
-      <div class="item" v-for="childItem in info.comicslist" :key="childItem.bigbook_id">
+    <div
+    v-if="info.comicsviewtype === 1" class="recommend-type-1">
+      <div class="item"
+      v-for="childItem in info.comicslist"
+      :key="childItem.bigbook_id"
+      @click="clickitem()"
+      >
         <img class="item-pic" :src="JSON.parse(childItem.extension).xsyzfx" />
         <p class="item-name font-28">{{ childItem.bigbook_name }}</p>
         <p class="item-text font-24">{{ JSON.parse(childItem.extension).recommendwords }}</p>
@@ -63,18 +68,19 @@ export default {
       required: true
     }
   },
+  // childItem.bigbook_id
+  methods: {
+    clickitem () {
+      this.$emit('clickitem', 321)
+    }
 
+  },
   // 局部过滤器
   filters: {
     formatYi (value) {
       // console.log('value: ', value)
       return `${(value / 100000000).toFixed(2)}亿`
     }
-
-    // filterB (value, name, age) {
-    //   // console.log(value, name, age)
-    //   return value
-    // }
   }
 }
 </script>
