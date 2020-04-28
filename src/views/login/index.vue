@@ -8,14 +8,14 @@
     <section class="login-main">
         <div class="input-group font-24">
             <label>邮 箱：</label>
-            <input type="text" placeholder="请输入您的邮箱">
+            <input type="text" id="email"  placeholder="请输入您的邮箱" v-model.lazy="username">
         </div>
         <div class="input-group font-24 password">
             <label>密 码：</label>
-            <input type="password" placeholder="请输入您的密码">
+            <input type="password" id="password" placeholder="请输入您的密码" v-model.lazy="password">
             <span class="forget font-20">忘记密码?</span>
         </div>
-        <div class="login-btn font-26">登录</div>
+        <div class="login-btn font-26" @click="gohome">登录</div>
     </section>
     <footer class="login-third">
         <p class="third-title font-20">或者用以下方式登录</p>
@@ -31,9 +31,45 @@
 <script>
 export default {
   name: 'Login',
+  data () {
+    return {
+      username: '',
+      password: ''
+    }
+  },
   methods: {
     goregister () {
       this.$router.push('/register')
+    },
+    gohome () {
+      // 1 先判断用户名是否复合要求
+      var username = document.querySelector('#email').value.trim()
+      // console.log(document.querySelector("#password"));
+      var password = document.querySelector('#password').value.trim()
+      // 进行验证数据
+      if (username === '') {
+        alert('用户名不能为空！')
+        return
+      }
+      var reg = /^[1-9a-zA-Z]\w{5,17}@[0-9a-zA-Z]+\.(com|cn)$/
+      if (!reg.test(username)) {
+        alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
+        return
+      }
+      if (password === '') {
+        alert('密码不能为空！')
+        return
+      }
+      var regg = /^[0-9a-zA-Z]{6,16}$/
+      if (!regg.test(password)) {
+        alert('密码必须是数字和字母组成的6~16位')
+        return
+      }
+      // JSON.stringify(username) 存localStorage
+      // JSON.parse()  取localStorage
+      localStorage.setItem('username', JSON.stringify(username))
+      localStorage.setItem('password', JSON.stringify(password))
+      this.$router.replace('/home')
     }
   }
 }

@@ -49,19 +49,35 @@
 </template>
 
 <script>
+// import Vue from 'vue'
+import { Dialog } from 'vant'
 export default {
   name: 'My',
   methods: {
-    gorfavorite () {
-      this.$router.push('/favorite')
-    },
     gorfhistory () {
       this.$router.push('/history')
     },
     gologin () {
-      this.$router.push('/login')
+      Dialog.confirm({
+        title: '',
+        message: '您确定要离开我吗？'
+      })
+        .then(() => {
+          localStorage.clear()
+          this.$router.push('/login')
+          // 确认是要做的事  on confirm
+          console.log(1)
+          // this.gologin()
+        })
+        .catch(() => {
+          console.log(2)
+        })
+    },
+    gorfavorite () {
+      this.$router.push('/gorfavorite')
     }
   }
+
 }
 </script>
 <style>

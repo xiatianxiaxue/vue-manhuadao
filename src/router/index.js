@@ -14,7 +14,10 @@ import Search from '../views/Search'
 import SearchResult from '../views/SearchResult'
 import Vip from '../views/Vip'
 import Bigbookid from '../views/Bigbookid'
-
+// 引入加载条插件
+import NProgress from 'nprogress'
+// 引入加载条的样式
+import 'nprogress/nprogress.css'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -31,7 +34,18 @@ const router = new VueRouter({
     },
     { path: '/login', component: Login },
     { path: '/bigbookid', component: Bigbookid },
-    { path: '/my', component: My },
+    {
+      path: '/my',
+      component: My,
+      beforeEnter: (to, from, next) => { // 路由独享守卫 前置
+        console.log('路由独享守卫 目的是看看有没有登录')
+        if (localStorage.getItem('username') && localStorage.getItem('password')) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
+    },
     { path: '/ranking', component: Ranking },
     { path: '/register', component: Register },
     { path: '/search', component: Search },
@@ -40,5 +54,19 @@ const router = new VueRouter({
     { path: '/', redirect: '/home' }
   ]
 })
-
+// 全局前置守卫 进入每一个路由都会触发的这个守卫
+// next()  必须有回调才能进行下去
+// to  是要进行的下一个路由的信息
+// from 是当前路由的信息对象
+router.beforeEach((to, from, next) => {
+  // 加载条  启动
+  NProgress.start()
+  // 关闭加载旋转器
+  NProgress.configure({ showSpinner: false })
+  next()
+})
+router.afterEach((to, from) => {
+  // 加载条 取消
+  NProgress.done()
+})
 export default router

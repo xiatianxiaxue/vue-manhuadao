@@ -7,17 +7,35 @@
     <section class="register-main">
       <p class="input-group font-24">
        <label>邮<span class="hide" >邮箱</span>箱：</label>
-       <input type="text" placeholder="请输入你的邮箱" name="username" id="email" >
+       <input
+       type="text"
+       placeholder="请输入你的邮箱"
+       name="username"
+       id="email"
+       v-model.lazy="username"
+        >
       </p>
       <p class="input-group font-24 password">
         <label>密<span class="hide">密码</span>码：</label>
-        <input type="password" placeholder="请设置6-16位的字母、数字、符号的密码" name="password" id="password" >
+        <input
+        type="password"
+        placeholder="请设置6-16位的字母、数字、符号的密码"
+        name="password"
+        id="password"
+        v-model.lazy="password"
+        >
       </p>
       <p class="input-group font-24 password">
         <label>确认密码：</label>
-        <input type="password" placeholder="请再次输入你的密码" name="repassword" id="repassword">
+        <input
+        type="password"
+        placeholder="请再次输入你的密码"
+        name="repassword"
+        id="repassword"
+        v-model.lazy="repassword"
+        >
       </p>
-      <div class="register-btn font-26">注册</div>
+      <div class="register-btn font-26" @click="gohome">注册</div>
     </section>
     <footer class="register-footer">
       <p class="content font-24">已有账号？马上<span class="go-login" @click="gologin">登录</span></p>
@@ -25,58 +43,71 @@
   </div>
 </template>
 <script>
-document.querySelector("input[type='button']").onclick = function () {
-  // 点击事件中获取用户名密码
-  var username = document.querySelector('#email').value.trim()
-  // console.log(document.querySelector("#password"));
-  var password = document.querySelector('#password').value.trim()
-  // 进行验证数据
-  if (username === '') {
-    alert('用户名不能为空！')
-    return
-  }
-  var reg = /^[1-9a-zA-Z]\w{5,17}@[0-9a-zA-Z]+\.(com|cn)$/
-  if (!reg.test(username)) {
-    alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
-    return
-  }
-  if (password === '') {
-    alert('密码不能为空！')
-    return
-  }
-  var regg = /^[0-9a-zA-Z]{6,16}$/
-  if (!regg.test(password)) {
-    alert('密码必须是数字和字母组成的6~16位')
-    return
-  }
-  var repassword = document.querySelector('#repassword').value.trim()
-  if (repassword === '') {
-    alert('确认密码不能为空！')
-    return
-  }
-  var regs = /^[0-9a-zA-Z]{6,16}$/
-  if (!regs.test(repassword)) {
-    alert('确认密码必须是数字和字母组成的6~16位')
-    return
-  }
-  if (password !== repassword) {
-    alert('两次密码不一致！')
-    return
-  }
-  var agreement = document.querySelector('#agreement')
-  // 判断复选框有没有被选中，就判断他的checked属性是否为true和false
-  if (!agreement.checked) {
-    alert('请同意协议')
-  }
-}
-
-</script>
-<script>
+import { unformat } from '../../utils/apiHeader.js'
 export default {
   name: 'Register',
+  data () {
+    return {
+      username: '',
+      password: '',
+      repassword: ''
+    }
+  },
+  created () {
+    // const obj = unformat('cGjDLj1P48v0SIJzZIJBqhZQsVwafWcl/Sh0k/0W+Uy6D+Bfiu/ULoxaPEk+7eJ3UwzU2x+HIGJTqfo11AN0cJa4Bmlbu6jcqQi/hcMvHNQNy8aNKRWKLS9FhSOm6I4Um+3ZJDpcZDU1eRj9y9shF6iQzTFDnme/2cxGpWLUosHF0STzXJjau+iH+Cv6Yg41REUIWYPpYiNyGdaRY11v3jYFVikcm35LlW29QBmOB7cMk3XLuBcB5wUPFwMvgHbJ')
+    const obj = unformat('f7JLq2WVjEwasjCgw4g7Ep0x6b9KC3/Rx6tOqs5xk84=:')
+    // {"projectid":2,"platformid":1,"appid":8,"userid":"206332585","token":"bc1dc797dec62bdf20200428162420206332585"}
+    console.log(obj)
+  },
   methods: {
     gologin () {
       this.$router.push('/login')
+    },
+    gohome () {
+      // 验证用户名和密码格式是否正确
+      // 点击事件中获取用户名密码
+      console.log(121212)
+      var username = document.querySelector('#email').value.trim()
+      // console.log(document.querySelector("#password"));
+      var password = document.querySelector('#password').value.trim()
+      // 进行验证数据
+      if (username === '') {
+        alert('用户名不能为空！')
+        return
+      }
+      var reg = /^[1-9a-zA-Z]\w{5,17}@[0-9a-zA-Z]+\.(com|cn)$/
+      if (!reg.test(username)) {
+        alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
+        return
+      }
+      if (password === '') {
+        alert('密码不能为空！')
+        return
+      }
+      var regg = /^[0-9a-zA-Z]{6,16}$/
+      if (!regg.test(password)) {
+        alert('密码必须是数字和字母组成的6~16位')
+        return
+      }
+      var repassword = document.querySelector('#repassword').value.trim()
+      if (repassword === '') {
+        alert('确认密码不能为空！')
+        return
+      }
+      var regs = /^[0-9a-zA-Z]{6,16}$/
+      if (!regs.test(repassword)) {
+        alert('确认密码必须是数字和字母组成的6~16位')
+        return
+      }
+      if (password !== repassword) {
+        alert('两次密码不一致！')
+        return
+      }
+      // JSON.stringify(username) 存localStorage
+      // JSON.parse()  取localStorage
+      localStorage.setItem('username', JSON.stringify(username))
+      localStorage.setItem('password', JSON.stringify(password))
+      this.$router.push('/Home')
     }
   }
 }
