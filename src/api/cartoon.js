@@ -6,6 +6,25 @@ import request from '@/utils/request'
 // 引入 ApiHeader
 import { format } from '@/utils/apiHeader'
 
+// 用户注册 接口  getuserreq
+// https://pay.manhuadao.cn/UserAccount/GetUserAccountInfo?apptype=8&appversion=1.0&channel=web-app
+// https://pay.manhuadao.cn/UserAccount/GetUserAccountInfo?apptype=8&appversion=1.0&channel=web-app//
+// https://mhd.zhuishushenqi.com/comic_v2/userinfo?apptype=8&appversion=1.0&channel=web-app
+export const getuserreq = (ranktype) => {
+  return request({
+    url: '/pay/UserAccount/GetUserAccountInfo',
+    method: 'POST',
+    params: {
+      apptype: 8,
+      appversion: '1.0',
+      channel: 'web-app',
+      cpid: 0
+    },
+    data: format({
+    })
+  })
+}
+
 /**
  * 获取轮播图
  */

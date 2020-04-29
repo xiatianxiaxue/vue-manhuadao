@@ -1,7 +1,7 @@
 <template>
   <div class="page-my">
     <header class="header-normal">
-        <div class="header-back"></div>
+        <div class="header-back" @click="goback"></div>
         <span class="header-title font-32">我的</span>
     </header>
     <section class="mine-info">
@@ -41,7 +41,7 @@
         </a>
         <a class="menu-item" >
             <span class="icon-mhd"></span>
-            <span class="item-text">关于我们</span>
+            <span class="item-text" @click="goabout">关于我们</span>
         </a>
     </section>
     <footer class="mine-logout font-30" @click="gologin">退出登录</footer>
@@ -56,6 +56,15 @@ export default {
   methods: {
     gorfhistory () {
       this.$router.push('/history')
+    },
+    gorfavorite () {
+      this.$router.push('/favorite')
+    },
+    goback () {
+      this.$router.go(-1)
+    },
+    goabout () {
+      this.$router.push('/Aboutmy')
     },
     gologin () {
       Dialog.confirm({
@@ -72,12 +81,8 @@ export default {
         .catch(() => {
           console.log(2)
         })
-    },
-    gorfavorite () {
-      this.$router.push('/gorfavorite')
     }
   }
-
 }
 </script>
 <style>

@@ -1,5 +1,6 @@
 <template>
   <div class="page-home">
+    <!-- <keep-alive > -->
     <index-header></index-header>
     <div class="index-main">
       <!-- :autoplay='1000' -->
@@ -26,8 +27,8 @@
           <div class="licence">增值电信业务经营许可证沪B2-20170022<br>网络文化经营许可证沪网文（2016）3206-227号<br>出版物经营许可证新出发沪批字第U7659号</div>
       </div>
     </div>
+    <!-- </keep-alive> -->
   </div>
-
 </template>
 
 <script>
@@ -63,27 +64,10 @@ export default {
     }
   },
   computed: {
-    // bigbookid () {
-    //   return this.bigbookid.map((item) => {
-    //     return {
-    //       bigbookid: item.bigbookid
-    //     }
-    //   })
-    // }
   },
   methods: {
-    // 伦比图点击事件
-    // onclick (index, itemIid) {
-    //   this.$router.push({
-    //     path: '/bigbookid',
-    //     query: {
-    //       bigbookid: itemIid
-    //     }
-    //   })
-    // console.log('hello', index)
-    // },
-    swiperclk (b) {
-      console.log(b)
+    swiperclk () {
+      console.log(1)
     },
     getBanner () {
       getBanner()

@@ -44,6 +44,8 @@
 </template>
 <script>
 import { unformat } from '../../utils/apiHeader.js'
+import { getuserreq } from '../../api/cartoon.js'
+import { Dialog } from 'vant'
 export default {
   name: 'Register',
   data () {
@@ -54,9 +56,14 @@ export default {
     }
   },
   created () {
-    // const obj = unformat('cGjDLj1P48v0SIJzZIJBqhZQsVwafWcl/Sh0k/0W+Uy6D+Bfiu/ULoxaPEk+7eJ3UwzU2x+HIGJTqfo11AN0cJa4Bmlbu6jcqQi/hcMvHNQNy8aNKRWKLS9FhSOm6I4Um+3ZJDpcZDU1eRj9y9shF6iQzTFDnme/2cxGpWLUosHF0STzXJjau+iH+Cv6Yg41REUIWYPpYiNyGdaRY11v3jYFVikcm35LlW29QBmOB7cMk3XLuBcB5wUPFwMvgHbJ')
-    const obj = unformat('f7JLq2WVjEwasjCgw4g7Ep0x6b9KC3/Rx6tOqs5xk84=:')
-    // {"projectid":2,"platformid":1,"appid":8,"userid":"206332585","token":"bc1dc797dec62bdf20200428162420206332585"}
+    getuserreq().then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+    // const obj = unformat('Vaiorwso8J1/gVyj9dbdYIwG4zUX5zfcLtdM6djx+ew=:')  === {"id":"206335792"}
+    const obj = unformat('2FSHqs++ljPNboE3v0Z6edaKH9GUedEWPHeS8Joy9YF7tVlZZPKAjgR4TxyySElshXZp9AK6sNCdTrk9quHT7LP8seRKLjD3cyGHcAVKhrUrlZtariH9ZTy6XSmhNsgiSaaZV3YXR8qHBKcv0/a+jw==: ')
+    // { "projectid":2,"platformid":1,"appid":8,"userid":"206333827","token":"6c3736155f91050820200428185951206333827" }
     console.log(obj)
   },
   methods: {
@@ -72,42 +79,106 @@ export default {
       var password = document.querySelector('#password').value.trim()
       // 进行验证数据
       if (username === '') {
-        alert('用户名不能为空！')
+        Dialog.confirm({
+          title: '',
+          message: '用户名不能为空'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
+        // alert('用户名不能为空！')
         return
       }
       var reg = /^[1-9a-zA-Z]\w{5,17}@[0-9a-zA-Z]+\.(com|cn)$/
       if (!reg.test(username)) {
-        alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
+        Dialog.confirm({
+          title: '',
+          message: '请输入正确的邮箱地址'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
         return
+        // alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
       }
       if (password === '') {
-        alert('密码不能为空！')
+        Dialog.confirm({
+          title: '',
+          message: '密码不能为空'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
+        // alert('密码不能为空！')
         return
       }
       var regg = /^[0-9a-zA-Z]{6,16}$/
       if (!regg.test(password)) {
-        alert('密码必须是数字和字母组成的6~16位')
+        Dialog.confirm({
+          title: '',
+          message: '密码必须是数字和字母组成的6~16位'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
+        // alert('密码必须是数字和字母组成的6~16位')
         return
       }
       var repassword = document.querySelector('#repassword').value.trim()
       if (repassword === '') {
-        alert('确认密码不能为空！')
+        Dialog.confirm({
+          title: '',
+          message: '确认密码不能为空！'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
         return
       }
       var regs = /^[0-9a-zA-Z]{6,16}$/
       if (!regs.test(repassword)) {
-        alert('确认密码必须是数字和字母组成的6~16位')
+        Dialog.confirm({
+          title: '',
+          message: '确认密码必须是数字和字母组成的6~16位'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
         return
       }
       if (password !== repassword) {
-        alert('两次密码不一致！')
+        Dialog.confirm({
+          title: '',
+          message: '两次密码不一致！'
+        })
+          .then(() => {
+            console.log(1)
+          })
+          .catch(() => {
+            console.log(2)
+          })
         return
       }
-      // JSON.stringify(username) 存localStorage
-      // JSON.parse()  取localStorage
-      localStorage.setItem('username', JSON.stringify(username))
-      localStorage.setItem('password', JSON.stringify(password))
-      this.$router.push('/Home')
+      Dialog.confirm({
+        title: `${this.username}`,
+        message: '恭喜您注册成功'
+      })
+        .then(() => {
+          // JSON.stringify(username) 存localStorage
+          // JSON.parse()  取localStorage
+          localStorage.setItem('username', JSON.stringify(username))
+          localStorage.setItem('password', JSON.stringify(password))
+          this.$router.push('/Home')
+        })
+        .catch(() => {
+          console.log(2)
+        })
     }
   }
 }

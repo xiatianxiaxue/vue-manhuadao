@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { Dialog } from 'vant'
 export default {
   name: 'Login',
   data () {
@@ -48,28 +49,68 @@ export default {
       var password = document.querySelector('#password').value.trim()
       // 进行验证数据
       if (username === '') {
-        alert('用户名不能为空！')
+        Dialog.confirm({
+          title: '',
+          message: '用户名不能为空'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
+        // alert('用户名不能为空！')
         return
       }
       var reg = /^[1-9a-zA-Z]\w{5,17}@[0-9a-zA-Z]+\.(com|cn)$/
       if (!reg.test(username)) {
-        alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
+        Dialog.confirm({
+          title: '',
+          message: '请输入正确的邮箱地址'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
         return
+        // alert('用户名是字母、数字开头，由数字、字母、下划线组成，6~18位')
       }
       if (password === '') {
-        alert('密码不能为空！')
+        Dialog.confirm({
+          title: '',
+          message: '密码不能为空'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
+        // alert('密码不能为空！')
         return
       }
       var regg = /^[0-9a-zA-Z]{6,16}$/
       if (!regg.test(password)) {
-        alert('密码必须是数字和字母组成的6~16位')
+        Dialog.confirm({
+          title: '',
+          message: '密码必须是数字和字母组成的6~16位'
+        })
+          .then(() => {
+          })
+          .catch(() => {
+          })
+        // alert('密码必须是数字和字母组成的6~16位')
         return
       }
-      // JSON.stringify(username) 存localStorage
-      // JSON.parse()  取localStorage
-      localStorage.setItem('username', JSON.stringify(username))
-      localStorage.setItem('password', JSON.stringify(password))
-      this.$router.replace('/home')
+      Dialog.confirm({
+        title: `${this.username}`,
+        message: '恭喜您登录成功'
+      })
+        .then(() => {
+          // JSON.stringify(username) 存localStorage
+          // JSON.parse()  取localStorage
+          localStorage.setItem('username', JSON.stringify(username))
+          localStorage.setItem('password', JSON.stringify(password))
+          this.$router.push('/Home')
+        })
+        .catch(() => {
+        })
     }
   }
 }

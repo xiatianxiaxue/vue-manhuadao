@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home'
 import Classify from '../views/Classify'
-// import Hello from '../views/Hello'
 import Favorite from '../views/Hello/Favorite'
 import History from '../views/Hello/History'
 import Login from '../views/Login'
@@ -14,6 +13,8 @@ import Search from '../views/Search'
 import SearchResult from '../views/SearchResult'
 import Vip from '../views/Vip'
 import Bigbookid from '../views/Bigbookid'
+import Aboutmy from '../views/Aboutmy'
+// import Aboutmy from '../views/Aboutmy'
 // 引入加载条插件
 import NProgress from 'nprogress'
 // 引入加载条的样式
@@ -26,31 +27,40 @@ const router = new VueRouter({
     { path: '/classify', component: Classify },
     {
       path: '/history',
-      component: History
+      component: History,
+      meta: {
+        needlogin: true
+      }
     },
     {
       path: '/favorite',
-      component: Favorite
+      component: Favorite,
+      meta: {
+        needlogin: true
+      }
     },
     { path: '/login', component: Login },
     { path: '/bigbookid', component: Bigbookid },
     {
       path: '/my',
       component: My,
-      beforeEnter: (to, from, next) => { // 路由独享守卫 前置
-        console.log('路由独享守卫 目的是看看有没有登录')
-        if (localStorage.getItem('username') && localStorage.getItem('password')) {
-          next()
-        } else {
-          next('/login')
-        }
+      meta: {
+        // 判断是否需要登录后才能进入功能
+        needlogin: true
       }
     },
+    { path: '/aboutmy', component: Aboutmy },
     { path: '/ranking', component: Ranking },
     { path: '/register', component: Register },
     { path: '/search', component: Search },
     { path: '/search-result', component: SearchResult },
-    { path: '/vip', component: Vip },
+    {
+      path: '/vip',
+      component: Vip,
+      meta: {
+        needlogin: true
+      }
+    },
     { path: '/', redirect: '/home' }
   ]
 })
@@ -62,9 +72,20 @@ router.beforeEach((to, from, next) => {
   // 加载条  启动
   NProgress.start()
   // 关闭加载旋转器
+  // NProgress.con figure({ showSpinner: true })
   NProgress.configure({ showSpinner: false })
+  // 判断在to 中是否有needlogin
+  if (to.meta.needlogin) {
+    // 如果有就表示需要登录 没有就放行
+    if (localStorage.getItem('username') && localStorage.getItem('password')) {
+      next()
+    } else {
+      next('/login')
+    }
+  }
   next()
 })
+
 router.afterEach((to, from) => {
   // 加载条 取消
   NProgress.done()

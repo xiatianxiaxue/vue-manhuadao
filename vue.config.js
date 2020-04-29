@@ -14,6 +14,14 @@ module.exports = {
         }
       },
 
+      '/pay': {  // https://pay.manhuadao.cn
+        target: 'https://pay.manhuadao.cn',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/pay': ''
+        }
+      },
+
       '/migu': {
         // 目标地址，只写主机
         target: 'http://movie.miguvideo.com',
