@@ -5,7 +5,7 @@
     <header-type :types="types" @click="onTypeChange"></header-type>
 
     <div class="ranking-main">
-      <cartoon-list :list="listtt" ></cartoon-list>
+      <cartoon-list :list="listtt" @clickitem="gitHomelist(item, listtt)"></cartoon-list>
     </div>
   </div>
 </template>
@@ -55,7 +55,8 @@ export default {
           coverurl: item.coverurl,
           bigbook_name: item.name,
           bigbook_author: item.author,
-          bigbookview: item.weekhits
+          bigbookview: item.weekhits,
+          bigbookid: item.bigbookid
         }
       })
     }
@@ -86,6 +87,15 @@ export default {
       const ranktype = payload.type.ranktype
       // // 从新发送 B 接口请求
       this.getRankList(ranktype)
+    },
+    // 点击进入详情页 bigbookid
+    gitHomelist (item, list) {
+      console.log(this.listtt.map(item => {
+        return item.bigbookid
+      }))
+      // const id = this.list[0].bigbookid
+      // this.$router.push(`/bigbookid?bigbookid=${id}`)
+      console.log(item)
     }
   },
 

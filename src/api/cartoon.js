@@ -19,9 +19,7 @@ export const getuserreq = (ranktype) => {
       appversion: '1.0',
       channel: 'web-app',
       cpid: 0
-    },
-    data: format({
-    })
+    }
   })
 }
 
@@ -259,15 +257,37 @@ export const getUserevaluate = (userid, bookstoreid) => {
     method: 'POST',
     params: {
       apptype: 8,
-      appversion: 1.0,
+      appversion: '1.0',
       channel: 'web-app'
     },
-    data: format({
+    // 这个口不需要去解码不用format*
+    data: {
       type: 3,
       pageno: 1,
       pagesize: 20,
       userid: userid,
       bigbookid: bookstoreid
-    })
+    }
+  })
+}
+
+/* 获取热门推荐的接口 {"bigbookid":["13544"],"authorname":[12384267],"subjectname":["热血"]}:
+** https://mhd.zhuishushenqi.com/comic_v2/gltj?apptype=8&appversion=1.0&channel=web-app
+* */
+export const hotRecommend = (authorname, subjectname, bookstoreid) => {
+  return request({
+    url: '/api/comic_v2/gltj',
+    method: 'POST',
+    params: {
+      apptype: 8,
+      appversion: '1.0',
+      channel: 'web-app'
+    },
+    // 这个口不需要去解码不用format*
+    data: {
+      subjectname: subjectname,
+      authorname: authorname,
+      bigbookid: bookstoreid
+    }
   })
 }

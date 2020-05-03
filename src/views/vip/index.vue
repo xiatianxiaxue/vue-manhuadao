@@ -75,7 +75,7 @@ export default {
   },
   created () {
     this.gitViplist()
-    const obj = unformat('Scd743PP6cinUQV+B108QR2Qq3YeZKLMq/d4kIDzK/g=:')
+    const obj = unformat('60P3rkydkWQtGGFaEXA6VXndgfVtz7WswIy520lpgbkXfjeBKiHrgQ8HsU8Mec14:')
     console.log(obj)
   }
 }

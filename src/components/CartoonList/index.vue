@@ -1,6 +1,6 @@
 <template>
   <section class="cartoon-list">
-    <div class="list-item" @click="fun1(item.bigbook_id)" v-for="item in list" :key="item.bigbook_id">
+    <div class="list-item" @click="fun1(item, item.bigbook_id)" v-for="item in list" :key="item.bigbook_id">
       <div
         class="item-pic"
         :style="`background-image: url('${item.coverurl}')`"
@@ -23,8 +23,8 @@ export default {
     }
   },
   methods: {
-    fun1 (bigbookid) {
-      this.$emit('clickitem', bigbookid)
+    fun1 (item, bigbookid) {
+      this.$emit('clickitem', { item, bigbookid })
     }
   },
   props: {

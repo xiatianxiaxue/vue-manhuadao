@@ -1,5 +1,6 @@
 <template>
   <div class="page-bigbook" >
+    <!-- 头部导航条 -->
     <header class="detail-header-scroll">
       <div class="header-back" @click="goback">
         <img class="header-back-img" src="../../assets/icon/header-back-white.png"/>
@@ -8,7 +9,7 @@
       <div class="header-index" @click="gohome"><img class="header-index-img" src="../../assets/icon/home.png"/></div>
       <div class="header-share icon-share"><img class="icon-share" src="../../assets/icon/fenxiang.png"/></div>
     </header>
-
+    <!-- 头部主体部分 -->
     <header class="detail-header header-cover" >
       <div class="header-cover" :style="`background-image: url('${Introduction.comicsdetail[0].bigcoverurl}');`"></div>
       <div class="header-group">
@@ -32,19 +33,24 @@
           <div></div>
       </div>
   </header>
-    <section class="detail-tab font-28">
-      <div class="tab-item " @click="getIntroduction()">简介</div>
-      <div class="tab-item active tab-border" >目录</div>
-      <div class="tab-item tab-border" @click="getUserevaluate()">评论(44)
-      </div>
-  </section>
-  <!-- 主体部分 -->
-  <section class="detail-main">
+  <!-- <Bigbooknav :mululist='mulu' @click="handleClick(index)"></Bigbooknav> -->
+   <section class="detail-tab font-28">
+     <div
+      class="tab-item  tab-border"
+      :class="{'active': index === activeIndex}"
+      v-for="(item, index) in mulu"
+      :key="index"
+       @click="handleClick(index)"
+      >{{ item.name }}</div>
+    </section>
+  <!-- 主体部分 分三部分 1. 简介 2. 目录 3. 评价 -->
+  <section class="detail-main" v-if="activeIndex === 0" :class="{'active': index === activeIndex}">
     <section class="detail-summary font-26">{{ Introduction.comicsdetail[0].bigbook_brief }}</section>
     <div class="introduce">
         <div class="btna"><span>作者：{{ Introduction.comicsdetail[0].bigbook_author }}</span></div>
         <div class="btnb"><span>连载中 |</span> <span>{{ Introduction.comicsdetail[0].updatedetail }}</span></div>
     </div>
+    <!-- 热门推荐 -->
     <section class="hot-recommend">
         <p class="recommend-title font-26">热门推荐</p>
         <div class="recommend-list">
@@ -61,6 +67,71 @@
         </div>
     </section>
   </section>
+  <!-- 2. 目录 -->
+  <section v-if="activeIndex === 1" :class="{'active': index === activeIndex}">
+    <section class="detail-list">
+        <p class="list-title">
+            <span class="title-title font-28">目录</span>
+            <span class="title-sub font-24">(2020-05-03已经更新到第251话 圣王的血脉（2）)</span>
+        </p>
+        <div class="list-btn">
+            <div class="icon-sort-down"></div>
+            <div class="btn-text font-24">正序</div>
+        </div>
+        <section class="list-list">
+            <div class="list-item font-26">
+               <span class="item-name">第01话</span>
+            </div>
+            <div class="list-item font-26">
+              <span class="item-name">第02话</span>
+            </div>
+            <div class="list-item font-26">
+              <span class="item-name">第03回</span>
+            </div>
+            <div class="list-item font-26">
+              <span class="item-name">第04回</span>
+            </div>
+            <div class="list-item font-26">
+              <span class="item-name">第05回</span>
+            </div>
+        </section>
+
+    <footer class="detail-footer">
+        <div class="btn-fav">
+            <div class="icon-love"></div>
+            <span class="btn-text font-28">加入收藏</span>
+        </div>
+
+        <div class="btn-read">
+            <div class="icon-book"></div>
+            <span class="btn-text font-28">开始阅读</span>
+        </div>
+    </footer>
+    </section>
+  </section>
+    <!-- 3. 评价  -->
+  <section class="detail-comment" v-if="activeIndex === 2" :class="{'active': index === activeIndex}">
+        <div class="item" v-for="item in Userevaluate" :key="item.id">
+            <div class="item-user">
+                <div class="user-pic" :style=" `background-image: url('${item.profileimageurl}');`"></div>
+                <div class="user-info">
+                    <p class="info-name font-24">{{ item.screenname }}</p>
+                    <p class="info-time font-20">{{ item.createtime }}</p>
+                </div>
+            </div>
+            <p class="item-content font-28">{{ item.content }}</p>
+            <div class="item-btn font-20">
+                <div class="btn-comment">
+                    <div class="icon-chat"></div>
+                    {{ item.replycount }}
+                </div>
+                <div class="btn-love">
+                    <div class="icon-love-grey"></div>
+                    {{ item.praisecount }}
+                </div>
+            </div>
+        </div>
+  </section>
   <!-- 底部 -->
   <footer class="detail-footern">
       <div class="btn-fav">
@@ -75,19 +146,27 @@
   </footer>
   </div>
 </template>
-
 <script>
+// import Bigbooknav from './components/Bigbooknav.vue'
 import { unformat } from '../../utils/apiHeader.js'
-import { getDetailist, getIntroduction, getUserevaluate } from '../../api/cartoon.js'
+import { getIntroduction, getUserevaluate, hotRecommend } from '../../api/cartoon.js'
 export default {
   name: 'Bigbookid',
+  components: {
+    // Bigbooknav
+  },
   data () {
     return {
       title: this.$route.query.keyword,
       bookstoreid: this.$route.query.bigbookid,
       Introduction: [],
       Userevaluate: [],
-      userid: 206335792
+      userid: 206335792,
+      mulu: [{ id: 1, name: '简介' }, { id: 2, name: '目录' }, { id: 3, name: '评价' }],
+      activeIndex: 0,
+      subjectname: '',
+      authorname: '',
+      hotlist: []
     }
   },
   methods: {
@@ -96,12 +175,17 @@ export default {
       const bookstoreid = this.bookstoreid
       getIntroduction(bookstoreid)
         .then(res => {
+          // console.log(666, JSON.parse(unformat(res.info.comicsdetail)))
           // if (res.code === 200) {
           this.Introduction = JSON.parse(unformat(res.info))
+          // this.subjectname = this.Introduction.comicsdetail[0].subject_name
+          // this.authorname = this.Introduction.comicsdetail[0].authoruserid
           // console.log(this.Introduction[0].bigbook_author)
           // }
         })
-        .catch(err => { console.log(err) })
+        // .catch(err => {
+        //   console.log(err)
+        // })
     },
     // 获取用户评价的消息
     getUserevaluate () {
@@ -109,13 +193,40 @@ export default {
       const userid = this.userid
       getUserevaluate(userid, bookstoreid)
         .then(res => {
-          this.Userevaluate = unformat(res.info.list)
-          console.log(res)
+          this.Userevaluate = res.info.list
+          // console.log(res)
         })
-        .catch(err => { console.log(err) })
+        .catch(err => {
+          console.log(err)
+        })
     },
+    // 获取热门推荐的 接口数据
+    hotRecommend () {
+      const bookstoreid = this.bookstoreid
+      const subjectname = this.subjectname
+      const authorname = this.authorname
+      console.log(authorname, subjectname)
+      hotRecommend(authorname, subjectname, bookstoreid)
+        .then(res => {
+          this.hotlist = res.info.list
+          console.log(1)
+        })
+        .catch(err => {
+          console.log(2)
+          console.log(err)
+        })
+    },
+    // 导航事件点击
     goback () { this.$router.go(-1) },
-    gohome () { this.$router.push('/home') }
+    gohome () { this.$router.push('/home') },
+    handleClick (index) {
+      // 当前点击的高亮
+      // console.log(index)
+      this.activeIndex = index
+      // 通知父组件
+      // payload 如何要传递多个参数，需要弄成对象的形式
+      // this.$emit('click', { type, index })
+    }
   },
   // 使用局部过滤器 对数字进行处理
   filters: {
@@ -123,19 +234,10 @@ export default {
       return `${(value / 100000000).toFixed(2)}亿`
     }
   },
-  created (userid, bookstoreid) {
+  created (userid, bookstoreid, authorname, subjectname) {
     this.getIntroduction(userid, bookstoreid)
-    this.getUserevaluate()
-    // console.log(this.bookstoreid)
-    // console.log(unformat('LndD/d800Ra4+a6JiZGoHijpFwjNX6g6X1+xn/BfL7Vqlaqf2bbsa0mbP5jcxM4LB0mDiwjdCp7Ug/GNovXH0Uk3f52QTPiuSjIl2b2yOjw=:'))
-    // 简介里面的信息
-    // this.getDetailist(bookstoreid)
-    getDetailist(bookstoreid).then(res => {
-      // console.log(res)
-    }).catch(err => {
-      console.log(err.code_msg)
-      alert('网络请求有误,请稍后再试！！')
-    })
+    this.getUserevaluate(userid, bookstoreid)
+    this.hotRecommend(authorname, subjectname, bookstoreid)
   }
 }
 

@@ -14,7 +14,7 @@ module.exports = {
         }
       },
 
-      '/pay': {  // https://pay.manhuadao.cn
+      '/pay': { // https://pay.manhuadao.cn
         target: 'https://pay.manhuadao.cn',
         changeOrigin: true,
         pathRewrite: {
@@ -40,18 +40,18 @@ module.exports = {
 	    }
 	  }
     }
-  },
+  }
   // 配置px——>rem
-    // chainWebpack: config => {
-    //   config.module
-    //     .rule('css')
-    //       .test(/\.css$/)
-    //       .oneOf('vue')
-    //       .resourceQuery(/\?vue/)
-    //       .use('px2rem')
-    //         .loader('px2rem-loader')
-    //         .options({
-    //           remUnit: 75
-    //         })
-    // }
+  // chainWebpack: config => {
+  //   config.module
+  //     .rule('css')
+  //       .test(/\.css$/)
+  //       .oneOf('vue')
+  //       .resourceQuery(/\?vue/)
+  //       .use('px2rem')
+  //         .loader('px2rem-loader')
+  //         .options({
+  //           remUnit: 75
+  //         })
+  // }
 }
