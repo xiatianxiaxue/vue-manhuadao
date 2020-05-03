@@ -70,8 +70,6 @@ export default {
         } else {
           alert('网络异常, 请稍后再试')
         }
-      }).catch(err => {
-        console.log(err)
       })
     }
   },

@@ -14,11 +14,12 @@ import SearchResult from '../views/SearchResult'
 import Vip from '../views/Vip'
 import Bigbookid from '../views/Bigbookid'
 import Aboutmy from '../views/Aboutmy'
-// import Aboutmy from '../views/Aboutmy'
+import Feedback from '../views/Feedback'
 // 引入加载条插件
 import NProgress from 'nprogress'
 // 引入加载条的样式
 import 'nprogress/nprogress.css'
+// 使用Router
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -53,6 +54,7 @@ const router = new VueRouter({
     { path: '/ranking', component: Ranking },
     { path: '/register', component: Register },
     { path: '/search', component: Search },
+    { path: '/feedback', component: Feedback },
     { path: '/search-result', component: SearchResult },
     {
       path: '/vip',
@@ -89,5 +91,6 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   // 加载条 取消
   NProgress.done()
+  NProgress.configure({ showSpinner: false })
 })
 export default router

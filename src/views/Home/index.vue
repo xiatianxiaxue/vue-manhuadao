@@ -6,7 +6,7 @@
       <!-- :autoplay='1000' -->
       <swiper class="my-swiper"  v-if="bannerList.length > 0">
         <swiper-item v-for="item in bannerList" :key="item.id"
-        @lunboshijian="swiperclk()"
+        @lunboshijian="swiperclk(item.targetargument)"
         >
           <img :src="item.imageurl" alt />
         </swiper-item>
@@ -17,12 +17,12 @@
       v-for="item in recommendList"
       :key="item.specialid"
       :info="item"
-      @clickitem="gitHomelist(bigbookid)"
+      @clickitem="gitHomelist(item)"
       ></IndexRecommend>
-      <div class="my-icp">
-          <a class="record" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202006214" target="_blank">
+      <div class="my-icp" @click="xiugaistate">
+          <a class="record" target="_blank">
               <img class="img" src="../../assets/icon/item-rank-other.png">
-              <div>沪公网安备 31011202006214号</div>
+              <div >沪公网安备 31011202006214号</div>
           </a>
           <div class="licence">增值电信业务经营许可证沪B2-20170022<br>网络文化经营许可证沪网文（2016）3206-227号<br>出版物经营许可证新出发沪批字第U7659号</div>
       </div>
@@ -43,6 +43,7 @@ import IndexRecommend from './components/IndexRecommend'
 import IndexHeader from './components/IndexHeader'
 import { getBanner, getIndexRecommend } from '@/api/cartoon'
 // import { unformat } from '../../utils/apiHeader.js'
+// import { mapMutations } from 'vuex'
 export default {
   name: 'Home',
   components: {
@@ -64,10 +65,19 @@ export default {
     }
   },
   computed: {
+    // ...mapState(['name']),
+    // ...mapGetters(['setname'])
   },
   methods: {
-    swiperclk () {
-      console.log(1)
+    xiugaistate () {
+    },
+    // 1 点击跳转到 详情页  和 携带bigboolid
+    swiperclk (bigbookid) {
+      const index = bigbookid.indexOf('=')
+      const id = bigbookid.substring(index + 1, index + 7)
+      // this.bigbookid = id
+      this.$router.push(`/bigbookid?bigbookid=${id}`)
+      // console.log(id)
     },
     getBanner () {
       getBanner()
@@ -104,56 +114,18 @@ export default {
         })
     },
     // ？？？？ 首页点击进详情页没有做.
-    gitHomelist (bigbookid) {
-      // const a = JSON.stringify(bigbookid.name)
-      // const a = this.recommendList.map((item, index) => { console.log(item, index) })
-      console.log(11, bigbookid)
-      // const item = this.recommendList.map((item) => { return item[0] })
-      // console.log(this.recommendList)
-      // console.log(JSON.parse(bigbookid))
-      // this.bigbookid = JSON.parse(unformat(res.info))
-      // this.bigbookid = this.bigbookid.comicssource[0].book_id
-      this.$router.push(`/bigbookid?bigbookid=${bigbookid}`)
-      // gitHomelist(bigbookid)
-      //   .then(res => {
-      //     // console.log(bigbookid)
-      //     if (res.code === 200) {
-      //       console.log(11, res)
-      //       //   console.log(this.$route.recommendList)
-      //       //   // t跳转去详情页面 JSON.parse
-      //       this.bigbookid = JSON.parse(unformat(res.info))
-      //       //   console.log(bigbookid)
-      //       this.bigbookid = this.bigbookid.comicssource[0].book_id
-      //       console.log(this.bigbookid)
-      //       // console.log(100, this.bigbookid.comicssource[0].book_id)
-      //       this.$router.push({
-      //         path: '/bigbookid',
-      //         query: {
-      //           bigbookid: this.bigbookid
-      //         }
-      //       })
-      //     } else {
-      //     // console.log(2)
-      //       alert(res.code.mgs)
-      //     }
-      //   })
-      //   .catch(err => {
-      //     // console.log(3)
-      //     console.log(err)
-      //     // alert('网络有误 请重新再来')
-      //   })
+    gitHomelist (item) {
+      console.log(1)
+      const id = item.comicslist[0].bigbook_id
+      this.$router.push(`/bigbookid?bigbookid=${id}`)
+      // console.log(11, item.comicslist[0].bigbook_id)
     }
-
   },
 
   created () {
     // console.log(this.$route.recommendList)
     this.getBanner()
     this.getIndexRecommend()
-    // this.gitHomelist()
-    // const obj = unformat('hr+sSJAnk4MKRJ1MeJFkRq9dXwrmRIScvWCezlL19Ig=:')
-    // console.log(222, obj)
-    // this.bigbookid = obj
   }
 }
 </script>

@@ -1,9 +1,10 @@
 <template>
   <div class="page-my">
-    <header class="header-normal">
+    <normal-header :titlerigth="` `" title="我的" :showRigth="false"></normal-header>
+ <!--   <header class="header-normal">
         <div class="header-back" @click="goback"></div>
         <span class="header-title font-32">我的</span>
-    </header>
+    </header> -->
     <section class="mine-info">
         <div class="info-pic" style="background-image: url(&quot;//thirdqq.qlogo.cn/g?b=oidb&amp;k=tjGl08kCP90HT8awzpAu8w&amp;s=100&amp;t=1555724047&quot;);">
 
@@ -18,14 +19,14 @@
         </div>
     </section>
     <section class="mine-menu font-30">
-        <a class="menu-item" href="account.html?cpid=0">
+        <a class="menu-item" @click="nextfn">
             <span class="icon-wallet"></span>
             <span class="item-text">我的账户</span>
 
         </a>
-        <a class="menu-item" href="mine-exchange.html?cpid=0">
+        <a class="menu-item" @click="nextfn">
             <span class="icon-wallet"></span>
-            <span class="item-text">使用兑换码</span>
+            <span class="item-text" >使用兑换码</span>
         </a>
         <a class="menu-item" @click="gorfavorite">
             <span class="icon-fav"></span>
@@ -35,9 +36,9 @@
             <span class="icon-clock" ></span>
             <span class="item-text">历史</span>
         </a>
-        <a class="menu-item" href="feedback.html?cpid=0">
+        <a class="menu-item" @click="feedback">
             <span class="icon-pencil"></span>
-            <span class="item-text">反馈</span>
+            <span class="item-text" >反馈</span>
         </a>
         <a class="menu-item" >
             <span class="icon-mhd"></span>
@@ -49,13 +50,22 @@
 </template>
 
 <script>
-// import Vue from 'vue'
+import NormalHeader from '@/components/NormalHeader'
 import { Dialog } from 'vant'
 export default {
   name: 'My',
+  components: {
+    NormalHeader
+  },
   methods: {
     gorfhistory () {
       this.$router.push('/history')
+    },
+    nextfn () {
+      alert('功能有待于开发！！！')
+    },
+    feedback () {
+      this.$router.push('/feedback')
     },
     gorfavorite () {
       this.$router.push('/favorite')
@@ -274,68 +284,6 @@ export default {
       min-height: 100%;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased
-  }
-
-  .header-normal {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-      width: 10rem;
-      height: 1.2rem;
-      margin: 0 auto;
-      background-color: #fff;
-      position: relative
-  }
-
-  .header-normal .header-back {
-      width: .61333333rem;
-      height: .34666667rem;
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAaCAMAAAD/jJ6+AAAAS1BMVEUAAAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzNOfcgEAAAAGHRSTlMA+YTxaxvr3L+mCaqiUUYxJRHYmpKMd14rR8HRAAAAm0lEQVQ4y+2SyQ7CMAxE62xtQ1dW//+XYsURIEw7B8SNOeXNiyLFSfPMeiL3gsDcEjPpEpulY8lBAZnsSCoflJCZ2nJAVAIm9ixpp4rABC8VuayEzMDv8dcdQ2xb3f7RONMmHcOG0fscx8Zkw8zlIbq5IjZjGe8QlbDJIUlLoSI264V0Jhpslp7OD7Dmn5/F/kJyu9vJ/PCvTr8DD0sYr/4QOQEAAAAASUVORK5CYII=) no-repeat;
-      background-size: contain;
-      position: absolute;
-      top: .42666667rem;
-      left: .32rem
-  }
-
-  .header-normal .header-title {
-      max-width: 70%;
-      color: #333;
-      font-weight: 500;
-      text-align: center;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap
-  }
-
-  .header-normal .header-search {
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAMAAADyHTlpAAAAmVBMVEUAAADnNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwwyRpgHAAAAMnRSTlMA+gbmzLWd7pEiDtwExpVDKvLRp1I+FOK/uDkX9q6rjnt3MxqHWAvXpGG6iYBya0pIMClQcwUAAAHZSURBVDjLlZPpmqIwEEUJYRFEBHHfl9ax9+nz/g83UwxBQEXn/Am536WqklRZNcbHeKpT0sm0MwytFn67igvLdf+eceTQpDe/ZTx55PizzW6367yl5GzsK2fwK88Zz6NCiPqeygMvGs5EA2ozromHPFE3qMeciLa/Ll+LXg1wkuzTW5ezcKSG6CJ44rStW4QD4OWSRrLcu/CDBpWYnfN3s7fu0Qdm5o2AjnWfM1BEcmE5brEGCrx/HaIgttpYQZof+gjMW61DIO+cGPyo1XpS8CEfUzlgOw6sZdVy/nYycGRNYfvA2oGJrMDnA+sL6P+MOnm+1im8PbAOICuip+33egC2tbcQqs9Wiq/AKG/eJXhG/drapv/jLyO65XuuQR0K1dbaO87nw8+V0uanhLKfRlTCfmP4rgTFjEFPaikLUwjqtdpXK7PZA5OyuX/OGn3+KRvbh2VgGTYywbfncCFzv7vsbSlhcLg1LF0aPToWRfev+9+XGOH132RBTUxWiHPRrKknsloPT4UQHl2EWWiFce/drnijl+KWnGzz3skGxW4X5V2Ca9fyzWiyCorRanqtvedzwY8TMwRNr2D3P9aDrt91su0oKkUXwbMeYry+9bTXsZ7zer6T/AE4EE3TZn9kCQAAAABJRU5ErkJggg==) no-repeat;
-      background-size: contain
-  }
-
-  .header-normal .header-index,.header-normal .header-search {
-      width: .56rem;
-      height: .56rem;
-      position: absolute;
-      top: .32rem;
-      right: .32rem
-  }
-
-  .header-normal .header-index {
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAMAAADyHTlpAAAAV1BMVEUAAADnNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwxn+LnKAAAAHHRSTlMAUg338NIUCIbY24/77uPIsaSWaWBOQi0oHPKBH/oJmgAAATRJREFUOMvNlNuOwiAURaFQqGK9a9XZ//+dQxjLgeyAPs56OamupGWdporxYbbBq284IXL6xpyQmD6bVwDnM4DrJ/NugKNSR8Dc++bDAqOPRxsB++iZbgvsnyry3ANb1zb9ATCLSiwv4OB7mXa39eK2i8l6mS5yeamScSZVUCfjTIIka2QSKBllEopknIlYjCSjTIIk40wEJ+NMlKyTiZNJpoEVTsaZWsk4UzNZoEyNZEFZytRINqsZf+QNT6MBzDjlfSIR1VCr2uKN1bUalA9zoWoU6EKd1+/Nqjobs+jYeNAxoXXVn7X6A2zeyxg2wNRRx3TX/CxjRzVA3vAAmIYqU378j2o6Dh/rJTMhkTiWzISk5xXkKTgbHT3kGRcbDevyLNDooFWFtmhgxZRXegeifMV/ARY5MLGD2AosAAAAAElFTkSuQmCC) no-repeat;
-      background-size: contain
-  }
-
-  .header-normal .header-submit {
-      color: #333;
-      position: absolute;
-      top: .32rem;
-      right: .32rem
   }
 
   .mine-login {

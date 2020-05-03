@@ -25,7 +25,12 @@
 
     <!-- 一行三个 -->
     <div v-if="info.comicsviewtype === 5" class="recommend-type-5">
-      <div class="item" v-for="childItem in info.comicslist" :key="childItem.bigbook_id">
+      <div
+      class="item "
+      v-for="childItem in info.comicslist"
+      :key="childItem.bigbook_id"
+      @click="clickitem()"
+      >
         <img class="item-pic" :src="childItem.coverurl" />
         <p class="item-name font-28">{{ childItem.bigbook_name }}</p>
         <p class="item-text font-24">{{ childItem.key_name }}</p>
@@ -38,6 +43,7 @@
         class="item"
         v-for="(childItem, childIndex) in info.comicslist"
         :key="childItem.bigbook_id"
+        @click="clickitem()"
       >
         <img class="item-pic" :src="JSON.parse(childItem.extension).scfk344_202" />
         <div class="ranking-group">
@@ -71,7 +77,7 @@ export default {
   // childItem.bigbook_id
   methods: {
     clickitem () {
-      this.$emit('clickitem', 321)
+      this.$emit('clickitem')
     }
 
   },

@@ -1,6 +1,6 @@
 <template>
   <section class="cartoon-list">
-    <div class="list-item" v-for="item in list" :key="item.bigbook_id">
+    <div class="list-item" @click="fun1(item.bigbook_id)" v-for="item in list" :key="item.bigbook_id">
       <div
         class="item-pic"
         :style="`background-image: url('${item.coverurl}')`"
@@ -22,6 +22,11 @@ export default {
       return ` ${(value / 100000000).toFixed(2)}亿 `
     }
   },
+  methods: {
+    fun1 (bigbookid) {
+      this.$emit('clickitem', bigbookid)
+    }
+  },
   props: {
     list: {
       type: Array,
@@ -29,12 +34,6 @@ export default {
         return []
       }
     }
-    // filters: {
-    //   type: Function,
-    //   default(){
-    //     capitalize () {}
-    //   }
-    // }
   }
 }
 </script>

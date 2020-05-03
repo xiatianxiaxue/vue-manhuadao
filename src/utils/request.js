@@ -29,6 +29,7 @@ instance.interceptors.response.use(
   },
   error => {
     // 对响应错误做点什么
+    alert('网络异常')
     return Promise.reject(error)
   }
 )

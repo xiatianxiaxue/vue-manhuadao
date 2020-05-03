@@ -1,111 +1,137 @@
 <template>
-  <div class="page-bigbook">
+  <div class="page-bigbook" >
     <header class="detail-header-scroll">
-      <div class="header-back"></div>
-      <span class="header-title font-32 header-hide">  王王</span>
-      <div class="header-index"></div>
-      <div class="header-share icon-share"></div>
-  </header>
+      <div class="header-back" @click="goback">
+        <img class="header-back-img" src="../../assets/icon/header-back-white.png"/>
+      </div>
+      <span class="header-title font-32 header-hide">  </span>
+      <div class="header-index" @click="gohome"><img class="header-index-img" src="../../assets/icon/home.png"/></div>
+      <div class="header-share icon-share"><img class="icon-share" src="../../assets/icon/fenxiang.png"/></div>
+    </header>
 
-    <header class="detail-header">
-      <div class="header-cover" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/249234/3343603_b438bca3cf5d42089685987198d1a625.jpg&quot;);"></div>
+    <header class="detail-header header-cover" >
+      <div class="header-cover" :style="`background-image: url('${Introduction.comicsdetail[0].bigcoverurl}');`"></div>
       <div class="header-group">
           <div class="header-box">
-              <div class="header-pic" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/249234/3343603_b438bca3cf5d42089685987198d1a625.jpg&quot;);"></div>
+              <div class="header-pic" :style="`background-image: url('${Introduction.comicsdetail[0].coverurl}');`"></div>
           </div>
           <div class="header-info">
-              <p class="info-title font-38">{{ title }}</p>
-              <p class="info-type font-26">奇幻 | 仙侠 冒险 奇幻 少年</p>
+              <p class="info-title font-38">{{ Introduction.comicsdetail[0].bigbook_name }}</p>
+              <p class="info-type font-26">{{ Introduction.comicsdetail[0].subject_name }} |{{ Introduction.comicsdetail[0].key_name }}</p>
               <div class="info-star">
-                  <div class="star-red"></div><div class="star-red"></div><div class="star-red"></div><div class="star-red"></div>
+                  <div class="star-red">
+                  </div><div class="star-red">
+                  </div><div class="star-red">
+                  </div><div class="star-red"></div>
                   <div class="star-white"></div>
               </div>
-              <p class="info-fans font-26">人气：1.54亿</p>
+              <p class="info-fans font-26">人气：{{Introduction.comicsdetail[0].bigbookview | capitalize  }}</p>
           </div>
-
       </div>
       <div class="vip fee">
           <div></div>
       </div>
   </header>
     <section class="detail-tab font-28">
-      <div class="tab-item tab-border">简介</div>
-      <div class="tab-item tab-border">目录</div>
-      <div class="tab-item active">评论(44)
+      <div class="tab-item " @click="getIntroduction()">简介</div>
+      <div class="tab-item active tab-border" >目录</div>
+      <div class="tab-item tab-border" @click="getUserevaluate()">评论(44)
       </div>
   </section>
-    <section class="detail-comment">
-      <div class="item">
-          <div class="item-user">
-              <div class="user-pic" style="background-image: url(&quot;//thirdqq.qlogo.cn/g?b=oidb&amp;k=sMbP2zbbibicg1ee9px2ngdQ&amp;s=100&amp;t=1579739085&quot;);"></div>
-              <div class="user-info">
-                  <p class="info-name font-24">潘金光</p>
-                  <p class="info-time font-20">2020-04-15 09:03:38</p>
-              </div>
-          </div>
-          <p class="item-content font-28">#九阳神王#作者快更新</p>
-          <div class="item-btn font-20">
-              <div class="btn-comment">
-                  <div class="icon-chat"></div>
-                  0
-              </div>
-              <div class="btn-love">
-                  <div class="icon-love-grey"></div>
-
-                  0
-              </div>
-          </div>
-      </div>
-      <div class="item">
-          <div class="item-user">
-              <div class="user-pic" style="background-image: url(&quot;//thirdqq.qlogo.cn/g?b=oidb&amp;k=C26JoXxuZWYW78FPiaHRovQ&amp;s=100&amp;t=1580981034&quot;);"></div>
-              <div class="user-info">
-                  <p class="info-name font-24">人生如梦</p>
-                  <p class="info-time font-20">2020-02-17 20:55:33</p>
-              </div>
-          </div>
-          <p class="item-content font-28">#九阳神王# 这部漫牛逼，有没有小说？求解！知道请告之干我</p>
-          <div class="item-btn font-20">
-              <div class="btn-comment">
-                  <div class="icon-chat"></div>
-                  2
-              </div>
-              <div class="btn-love">
-                  <div class="icon-love-grey"></div>
-
-                  2
-              </div>
-          </div>
-      </div>
+  <!-- 主体部分 -->
+  <section class="detail-main">
+    <section class="detail-summary font-26">{{ Introduction.comicsdetail[0].bigbook_brief }}</section>
+    <div class="introduce">
+        <div class="btna"><span>作者：{{ Introduction.comicsdetail[0].bigbook_author }}</span></div>
+        <div class="btnb"><span>连载中 |</span> <span>{{ Introduction.comicsdetail[0].updatedetail }}</span></div>
+    </div>
+    <section class="hot-recommend">
+        <p class="recommend-title font-26">热门推荐</p>
+        <div class="recommend-list">
+            <div class="list-item">
+                <div class="item-pic" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/173734/173734_c6d2e07448574d86801f1ad97b39aa24.jpg&quot;);"></div>
+                <p class="item-name font-26">爆笑校园</p>
+            </div><div class="list-item">
+                <div class="item-pic" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/181650/181650_1a34cab7f2c84771a36db383d4110086.jpg&quot;);"></div>
+                <p class="item-name font-26">国民老公带回家 偷吻55次</p>
+            </div><div class="list-item">
+                <div class="item-pic" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/167572/167572_64dd23f38e2743cdb9416fa4f8d3e15a.jpg&quot;);"></div>
+                <p class="item-name font-26">傲世九重天</p>
+            </div>
+        </div>
+    </section>
   </section>
+  <!-- 底部 -->
+  <footer class="detail-footern">
+      <div class="btn-fav">
+        <div class="icon-love">
+        </div>
+        <span class="btn-text font-28">加入收藏</span>
+      </div>
+      <div class="btn-readn">
+        <div class="icon-book"><img class="icon-book" src="../../assets/icon/kaishiyuedu.png"/></div>
+        <span class="btn-text font-28">继续阅读</span>
+      </div>
+  </footer>
   </div>
 </template>
 
 <script>
 import { unformat } from '../../utils/apiHeader.js'
-import { getDetailist } from '../../api/cartoon.js'
+import { getDetailist, getIntroduction, getUserevaluate } from '../../api/cartoon.js'
 export default {
   name: 'Bigbookid',
   data () {
     return {
       title: this.$route.query.keyword,
-      bookstoreid: this.$route.query.bookstore_id
+      bookstoreid: this.$route.query.bigbookid,
+      Introduction: [],
+      Userevaluate: [],
+      userid: 206335792
     }
   },
   methods: {
-    // getDetailist (bookstoreid) {}
-
+    // 获取详情首页的情况
+    getIntroduction () {
+      const bookstoreid = this.bookstoreid
+      getIntroduction(bookstoreid)
+        .then(res => {
+          // if (res.code === 200) {
+          this.Introduction = JSON.parse(unformat(res.info))
+          // console.log(this.Introduction[0].bigbook_author)
+          // }
+        })
+        .catch(err => { console.log(err) })
+    },
+    // 获取用户评价的消息
+    getUserevaluate () {
+      const bookstoreid = this.bookstoreid
+      const userid = this.userid
+      getUserevaluate(userid, bookstoreid)
+        .then(res => {
+          this.Userevaluate = unformat(res.info.list)
+          console.log(res)
+        })
+        .catch(err => { console.log(err) })
+    },
+    goback () { this.$router.go(-1) },
+    gohome () { this.$router.push('/home') }
   },
-  created (bookstoreid) {
+  // 使用局部过滤器 对数字进行处理
+  filters: {
+    capitalize: function (value) {
+      return `${(value / 100000000).toFixed(2)}亿`
+    }
+  },
+  created (userid, bookstoreid) {
+    this.getIntroduction(userid, bookstoreid)
+    this.getUserevaluate()
+    // console.log(this.bookstoreid)
+    // console.log(unformat('LndD/d800Ra4+a6JiZGoHijpFwjNX6g6X1+xn/BfL7Vqlaqf2bbsa0mbP5jcxM4LB0mDiwjdCp7Ug/GNovXH0Uk3f52QTPiuSjIl2b2yOjw=:'))
+    // 简介里面的信息
     // this.getDetailist(bookstoreid)
     getDetailist(bookstoreid).then(res => {
-      if (res.code === 200) {
-        console.log(unformat(res.info))
-        console.log(111, bookstoreid)
-        // this.searchResult = res.info
-      } else {
-        console.log('err')
-      }
+      // console.log(res)
     }).catch(err => {
       console.log(err.code_msg)
       alert('网络请求有误,请稍后再试！！')
@@ -114,105 +140,9 @@ export default {
 }
 
 </script>
-<style>
+<style lang="scss" >
 [v-cloak] {
     display: none
-}
-
-.font-14 {
-    font-size: .18666667rem
-}
-
-.font-16 {
-    font-size: .21333333rem
-}
-
-.font-18 {
-    font-size: .24rem
-}
-
-.font-20 {
-    font-size: .26666667rem
-}
-
-.font-22 {
-    font-size: .29333333rem
-}
-
-.font-24 {
-    font-size: .32rem
-}
-
-.font-26 {
-    font-size: .34666667rem
-}
-
-.font-28 {
-    font-size: .37333333rem
-}
-
-.font-30 {
-    font-size: .4rem
-}
-
-.font-32 {
-    font-size: .42666667rem
-}
-
-.font-34 {
-    font-size: .45333333rem
-}
-
-.font-36 {
-    font-size: .48rem
-}
-
-.font-38 {
-    font-size: .50666667rem
-}
-
-.font-40 {
-    font-size: .53333333rem
-}
-
-.font-42 {
-    font-size: .56rem
-}
-
-.font-44 {
-    font-size: .58666667rem
-}
-
-.font-46 {
-    font-size: .61333333rem
-}
-
-.font-48 {
-    font-size: .64rem
-}
-
-.font-50 {
-    font-size: .66666667rem
-}
-
-.font-52 {
-    font-size: .69333333rem
-}
-
-.font-54 {
-    font-size: .72rem
-}
-
-.font-56 {
-    font-size: .74666667rem
-}
-
-.font-58 {
-    font-size: .77333333rem
-}
-
-.font-60 {
-    font-size: .8rem
 }
 
 a:active,a:hover,a:link,a:visited {
@@ -253,17 +183,17 @@ body,html {
     top: 0;
     left: 0;
     right: 0;
-    margin: auto
+    margin: auto;
+    // background-color: #E9E9E9;
+    // opacity: 0.5
 }
 
-.detail-header-scroll .header-back {
+.detail-header-scroll .header-back, .header-back-img {
     width: .61333333rem;
     height: .34666667rem;
-    /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAaCAMAAAAQTvWAAAAAM1BMVEUAAAD///////////////////////////////////////////////////////////////+3leKCAAAAEHRSTlMAQBCAIPDgwGCg0HCwkDBQJD3xKAAAALJJREFUOMvtkksSgzAMQ+38IUB1/9M2QDv52Nm0W95SoxlLGlOLsStNSMEJ7RUA3c0rwIN2RED3uwUY/WbHiSWJ9SgsptXypW2O1JBA5DEesLIS5QoZUqdtKPiPJkN6a1rtjlc0QbqDu74NBN+UUKA09R+qnzhOy261rMwZlTG5H7N2xsmudM61s9zZZ2XTBXU/cTpUYXgs79Q/mTwzAFZOV78syIrOmSa4UuDhF9Dzp/8N878PvMBHvdEAAAAASUVORK5CYII=) no-repeat; */
-    background-size: contain;
     position: absolute;
-    top: .36rem;
-    left: .4rem
+    left: 0.2rem;
+    color: red;
 }
 
 .detail-header-scroll .header-title {
@@ -276,43 +206,27 @@ body,html {
     white-space: nowrap
 }
 
-.detail-header-scroll .header-index {
+.detail-header-scroll .header-index, .header-index-img {
     width: .56rem;
     height: .54666667rem;
-    /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAApCAMAAAB0iUvHAAAAV1BMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////+ORg7oAAAAHHRSTlMAUfcO8BQI0obY7tuO++PIsaSUaWBCLSgc8oHTGKW7vQAAATBJREFUOMvNlNtygjAURXOFCMG7qHX//3c2TRu2eCbRx66XM8BimCwCStLFYYid+oQDEodPzIBMeG+eARyPAM7vzIsB9krtAXNpm1cH9F1aWg+4a8v0I7C9qcRtC4y+bnY7wMwqM9+BXdfKNOlyoKeUrJXpxMNTTlbPpJ7IyRqZCJNVMhEmq2QiTEaYSTAbJhOZCJPVMhEma2QSyeqZZLJaploymamWTGaqJosiUyVZVMNLJh96A5g++JdkQ1J/Kfc7/OHKs5BJalypGiB6pcaffwlV74BRW6WsHgHnqS7/m6J+ARurMnYDhNXFtdoD/LaAvqEawJZzFjAVlZMn/6OalyOXdefMMJKMxZlhevkKlkm8S462ZSZBJ8P5ZT6h0UDT4+aTcDMSHx4TBObBLf4NNw0vsUbVhowAAAAASUVORK5CYII=) no-repeat; */
-    background-size: contain;
     position: absolute;
-    top: .26666667rem;
-    right: 1.06666667rem
+    right: 0.8rem;
 }
 
-.detail-header-scroll .header-share {
+.detail-header-scroll .header-share, .icon-share {
     width: .49333333rem;
     height: .56rem;
     background-size: contain;
     position: absolute;
-    top: .25333333rem;
-    right: .26666667rem
+    right: .16666667rem
 }
 
 .detail-header-scroll .header-hide {
-    opacity: 0
+    opacity: .5
 }
 
 .detail-header-scrolling {
     background: #fff
-}
-
-.detail-header-scrolling .header-back {
-    /* background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAaCAMAAAD/jJ6+AAAAS1BMVEUAAAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzNOfcgEAAAAGHRSTlMA+YTxaxvr3L+mCaqiUUYxJRHYmpKMd14rR8HRAAAAm0lEQVQ4y+2SyQ7CMAxE62xtQ1dW//+XYsURIEw7B8SNOeXNiyLFSfPMeiL3gsDcEjPpEpulY8lBAZnsSCoflJCZ2nJAVAIm9ixpp4rABC8VuayEzMDv8dcdQ2xb3f7RONMmHcOG0fscx8Zkw8zlIbq5IjZjGe8QlbDJIUlLoSI264V0Jhpslp7OD7Dmn5/F/kJyu9vJ/PCvTr8DD0sYr/4QOQEAAAAASUVORK5CYII=) */
-}
-
-.detail-header-scrolling .header-index {
-    /* background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAMAAADyHTlpAAAAV1BMVEUAAADnNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwxn+LnKAAAAHHRSTlMAUg338NIUCIbY24/77uPIsaSWaWBOQi0oHPKBH/oJmgAAATRJREFUOMvNlNuOwiAURaFQqGK9a9XZ//+dQxjLgeyAPs56OamupGWdporxYbbBq284IXL6xpyQmD6bVwDnM4DrJ/NugKNSR8Dc++bDAqOPRxsB++iZbgvsnyry3ANb1zb9ATCLSiwv4OB7mXa39eK2i8l6mS5yeamScSZVUCfjTIIka2QSKBllEopknIlYjCSjTIIk40wEJ+NMlKyTiZNJpoEVTsaZWsk4UzNZoEyNZEFZytRINqsZf+QNT6MBzDjlfSIR1VCr2uKN1bUalA9zoWoU6EKd1+/Nqjobs+jYeNAxoXXVn7X6A2zeyxg2wNRRx3TX/CxjRzVA3vAAmIYqU378j2o6Dh/rJTMhkTiWzISk5xXkKTgbHT3kGRcbDevyLNDooFWFtmhgxZRXegeifMV/ARY5MLGD2AosAAAAAElFTkSuQmCC) */
-}
-
-.detail-header-scrolling .header-share {
-    /* background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAqCAMAAAADFmLkAAAAclBMVEUAAADnNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwzLEuCQAAAAJXRSTlMA+Qko8wZt8dbRx3WRNMhNRRQN5ZqEU85AD90tHOCpXtq/ordlEFPFqQAAAUtJREFUOMuNk+lygyAYRUFx17gm2uxJe97/FUuio80U0PMLZs5c8LsobARhqlQaBsLFuedNf3ZIQc9E4kgLQYZNE0oI7VYKmdBkkNotCY3QNCCd1tdkKavkK7iunBhkktXb+zs0yyTsQbuhn6SzNUhmgW5op9TuT0P1PpEy2ddzkC/+c4h4Ex3mIIPEjDVI1DopLj2vjLEFafZaeo/5q4XWF2YSKMdVCYmjMW9ceSA3WUpsPnH99nMfzklEN6FZn+q1tmhqdNSheOW1lXgxdHcp71310bbqX217OZrcE/6DiYdp0FULxD+KGTWYvuY63TEvPK/IJUTG2m4REJ3Gzeli+z9uQDY/XgmVyerge9nl0JmsIxTLroCj6wG4n4raZMWbTnxC/nH7p8mqQPqrkxApXFanKvxovSHN4Gx7SUuZSH3hoOqOUsXTK/wFB/MwIPJLYH4AAAAASUVORK5CYII=) */
 }
 
 .detail-header {
@@ -320,7 +234,7 @@ body,html {
     height: 5.98666667rem;
     margin: 0 auto;
     overflow: hidden;
-    position: relative
+    position: relative;
 }
 
 .detail-header .bg {
@@ -337,7 +251,8 @@ body,html {
     filter: blur(50px);
     -webkit-backdrop-filter: brightness(5) blur(50px);
     position: absolute;
-    z-index: -1;
+    // display: flex;
+    z-index: 0;
     left: 0;
     top: 0
 }
@@ -345,16 +260,20 @@ body,html {
 .detail-header .header-cover {
     background-repeat: repeat;
     background-size: cover;
+    filter: blur(189px);
     /* -moz-filter: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZmlsdGVyIGlkPSJibHVyIj4KICAgICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI1MCIvPgogICAgPC9maWx0ZXI+Cjwvc3ZnPg==#blur) */
 }
-
+// 111111111111111111111111111111111111111111111111111111111111111111
 .detail-header .header-group {
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
-    margin: 1.06666667rem 0 0
+    margin: 1.06666667rem 0 0;
+    z-index: 1;
+    position: absolute;
+    top: 0;
 }
-
+// 1111111111111111111111111111111111111111111111111111111111111111111111111111111111
 .detail-header .header-group .header-box {
     width: 3.26666667rem;
     height: 4.33333333rem;
@@ -381,7 +300,7 @@ body,html {
 .detail-header .header-group .header-info .info-title,.detail-header .header-group .header-info .info-type {
     width: 100%;
     margin: .26666667rem 0 0;
-    /* color: #fff; */
+    color: #fff;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap
@@ -401,7 +320,7 @@ body,html {
     width: .37333333rem;
     height: .34666667rem;
     margin: 0 .08rem 0 0;
-    /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAaCAMAAACTisy7AAAAdVBMVEUAAADnNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwyaicm3AAAAJnRSTlMAXVRKMBq3qpmBcU7b0KOSh313Z2FBKSQF78e+r5WOiDg1FRIOCnSKHPMAAACoSURBVCjPfdJXDoMwEEXRAVNCDxBKen/7X2JwMNJosLlfto7mw4V4YRKSsyswuswHULswwtTLbgfo7nbEXG+z1GC1pjHAkvrw06mmLMDLL4k/aAp2cOQRMZN9KcDGJCmHpebWbDU051msZhcnS9hRW2F7YvUCW47Z1mQqMOZYCSw4RgKPHHP8O3mx0bf8BGd/Wj1K6J7sRQFEiqaWN8zYZBd3bDfcjP0ADCA0VTgz3TwAAAAASUVORK5CYII=) no-repeat; */
+    background-image: url(../../assets/icon/hongxing.png);
     background-size: contain
 }
 
@@ -409,13 +328,13 @@ body,html {
     width: .37333333rem;
     height: .34666667rem;
     margin: 0 .08rem 0 0;
-    /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAaCAMAAACTisy7AAAAbFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8+T+BWAAAAI3RSTlMAgKxLLdO2lpOIc2pgU09iQjcpJBoZFQwF8d7HvqWgjXpaSLLbMHUAAAClSURBVCjPfdJZEoMgEEXRFtQYpzhr5uHtf4+RkFR1kOZ+AafgA6C/xmgkqQXIRIwA1IJNWEsF3MNUeq2DzYvZF/MtzRq/4oWt91WkTuAl1/w1GDpAaBfTDIga2Il4PTcXTJPp4bWK3anb04CgpXOtvIJYhYMdBXZqjip0bOJgxvHoYMpsgk2VZ3xKGLYw3dp1WF3c71DbF7LpFMDA9d6zWaMaMr0BfKwwQAvWiXQAAAAASUVORK5CYII=) no-repeat; */
+    background-image:url(../../assets/icon/baixing.png);
     background-size: contain
 }
 
 .detail-header .header-group .header-info .info-fans {
     margin: .26666667rem 0 0;
-    /* color: #fff */
+    color: #fff
 }
 
 .detail-header .no {
@@ -1166,12 +1085,12 @@ body {
     width: .48rem;
     height: .4rem;
     margin: 0 .13333333rem 0 0;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAeCAMAAABzP0xhAAAAkFBMVEUAAADnNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwyBV7cFAAAAL3RSTlMAOmxHCfeo4Bzy59G+eBYGzsKsTiwR7LF1IAsD3NfJoIN8cmdDKLeQWCTDYTSUjUgQiGYAAAFSSURBVDjLfdJXcsMwDATQJSmq9y737sROsve/XeQyTmTLfF/82AGIAXDlbkOP9O2iwlVV2D7phVsXD1KzTrPTXDPYobcLqOenLK2pJW4sm7O2vDzUkdwAG/KoLABlNKNtoZfktB9VRUopmQrcuTbzBIDkEj3R/lyi8YJcxPhjUwKunlXAbtkqMUGv87wO/8Qz7UJy02e+9xbuigIDESUyv0Oy7PDWvg6hF4DaTvHeQoMhEAkYhAQz4PgFg4xwggTrEu9NAx9Lr0Ri+lJZ21BsYbSmQjJ3JjCwHMcCFFcwWFHdtmMYTjDHRez4Lt7oaifGleLBwqhJRoW7M/PR1LThGQ8bNslIJmc7vIfDBE+qkBEGJINPDOznlHjyQW9wbYXHD7wQDtfWY6w1HYERccPDvWUZsokxLqK+ttiSkWEJKfPPfcNUwKBa0fe5qmAmguClzC/qDRvJ5XE+EQAAAABJRU5ErkJggg==) no-repeat;
+    background: url('../../assets/icon/jiarushoucang.png') no-repeat;
     background-size: contain
 }
 
 .detail-footer .btn-fav .icon-love-solid {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAeCAMAAABzP0xhAAAAdVBMVEUAAADnNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwznNwyaicm3AAAAJnRSTlMA0vPBOXRvaffs6adDHBAIrp1nW1BI4t3axqt+ZBkVCsuyoJiRQkohKG0AAADMSURBVDjLhdLXboQwEEDRCxjTO2wvqfz/J8YhBHnZNXPeRroayYVJcakPfuI1fcmk7Bsv8Q/1pWChd+PsmGN8H//nnebPPRstGrQ9Z3eMyjS2tn2cswqIRkEERSpFaWEWiVre5ahmL0d7fDnySeUo5U2OPL7k6JNcjnKqQGqCCnnVgNFsNx/8unmbR7sxGWJ3Ew/MOnfUsdCuJsQSyo3rf0as9Mk6STqeKG91dsUL15PdnK68FvrLPwtxUsH8pooN5Tk2t3wu2aaC5zU/Ayhuau7Co14AAAAASUVORK5CYII=) no-repeat;
+    background: url('../../assets/icon/shixin.png') no-repeat;
     background-size: contain
 }
 
@@ -1222,7 +1141,7 @@ body {
 .detail-footer .btn-read .icon-book {
     width: .32rem;
     height: .4rem;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAeBAMAAADEAMPWAAAALVBMVEUAAAD///////////////////////////////////////////////////////+hSKubAAAADnRSTlMA8a0SxG4nGbYl5+SRSkeBIjYAAABTSURBVBjTY+BUfAcFQhMYEt/BgRiDXjsDFFQ8YpArgHHYHzK8Y4CDd8OCYyMH9zcDECNxnhogKQxgQOIY+EEVPUHjyCEr00MyADl4XzGwKcI5ewHsqnKCMHrmgwAAAABJRU5ErkJggg==) no-repeat;
+    // background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAeBAMAAADEAMPWAAAALVBMVEUAAAD///////////////////////////////////////////////////////+hSKubAAAADnRSTlMA8a0SxG4nGbYl5+SRSkeBIjYAAABTSURBVBjTY+BUfAcFQhMYEt/BgRiDXjsDFFQ8YpArgHHYHzK8Y4CDd8OCYyMH9zcDECNxnhogKQxgQOIY+EEVPUHjyCEr00MyADl4XzGwKcI5ewHsqnKCMHrmgwAAAABJRU5ErkJggg==) no-repeat;
     background-size: contain;
     margin: 0 .18666667rem 0 0
 }

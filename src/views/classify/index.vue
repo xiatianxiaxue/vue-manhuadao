@@ -5,7 +5,10 @@
     <header-type :types="types" @click="onTypeChange"></header-type>
 
     <div class="classify-main">
-      <cartoon-list :list="list"></cartoon-list>
+      <cartoon-list
+      :list="list"
+      @clickitem="gitHomelist(list)"
+      ></cartoon-list>
     </div>
   </div>
 </template>
@@ -64,7 +67,13 @@ export default {
         alert('网络异常，请稍后重试')
       })
     },
-
+    // 点击进入详情页 bigbookid
+    gitHomelist (list) {
+      console.log(1)
+      const id = this.list[0].bigbook_id
+      this.$router.push(`/bigbookid?bigbookid=${id}`)
+      // console.log(11, id)
+    },
     /**
      * 切换分类类型时，触发
      */

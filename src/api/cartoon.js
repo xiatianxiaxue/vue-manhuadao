@@ -221,7 +221,7 @@ export const gitViplist = (res) => {
 // /*https://m.manhuadao.cn/detail.html?bigbookid=13544&cpid=0
 export const getDetailist = (bookstoreid) => {
   return request({
-    url: '/comic_v2/comicsdetail_v2',
+    url: '/api/comic_v2/comicsdetail_v2',
     method: 'POST',
     params: {
       apptype: 8,
@@ -229,6 +229,44 @@ export const getDetailist = (bookstoreid) => {
       channel: 'web-app'
     },
     data: format({
+      bigbookid: bookstoreid
+    })
+  })
+}
+/* https://mhd.zhuishushenqi.com/comic_v2/comicsdetail_v2?apptype=8&appversion=1.0&channel=web-app
+** 请求详情页 的数据 getIntroduction
+* */
+export const getIntroduction = (bookstoreid) => {
+  return request({
+    url: '/api/comic_v2/comicsdetail_v2',
+    method: 'POST',
+    params: {
+      apptype: 8,
+      appversion: 1.0,
+      channel: 'web-app'
+    },
+    data: format({
+      bigbookid: bookstoreid
+    })
+  })
+}
+/* 获取用户评论信息 {"type":3,"pageno":1,"pagesize":20,"userid":"206335792","bigbookid":"13544"}:
+** https://mhd.zhuishushenqi.com/comic_v2/bloglist?apptype=8&appversion=1.0&channel=web-app&type=3&pageno=1&pagesize=20&userid=206335792&bigbookid=13544
+* */
+export const getUserevaluate = (userid, bookstoreid) => {
+  return request({
+    url: '/api/comic_v2/bloglist',
+    method: 'POST',
+    params: {
+      apptype: 8,
+      appversion: 1.0,
+      channel: 'web-app'
+    },
+    data: format({
+      type: 3,
+      pageno: 1,
+      pagesize: 20,
+      userid: userid,
       bigbookid: bookstoreid
     })
   })

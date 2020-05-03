@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 
 import './assets/styles/base.scss'
-
+import 'lib-flexible'
 Vue.config.productionTip = false
 
 // 全局定义一个过滤器。formatYi

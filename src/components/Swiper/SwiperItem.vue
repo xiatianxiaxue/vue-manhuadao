@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-slide" @click="lunboshijian(a)">
+  <div class="swiper-slide" @click="lunboshijian()">
     <slot></slot>
   </div>
 </template>
@@ -8,8 +8,8 @@
 export default {
   name: 'SwiperItem',
   methods: {
-    lunboshijian (a) {
-      this.$emit('lunboshijian', a)
+    lunboshijian () {
+      this.$emit('lunboshijian')
     }
   }
 }
