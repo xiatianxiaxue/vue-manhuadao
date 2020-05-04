@@ -3,7 +3,7 @@
     <!-- <keep-alive > -->
     <index-header></index-header>
     <div class="index-main">
-      <!-- :autoplay='1000' -->
+      <!-- 轮播图 :autoplay='1000' -->
       <swiper class="my-swiper"  v-if="bannerList.length > 0">
         <swiper-item v-for="item in bannerList" :key="item.id"
         @lunboshijian="swiperclk(item.targetargument)"
@@ -14,11 +14,12 @@
       <index-nav></index-nav>
       <!-- item.bigbook_id -->
      <IndexRecommend
-      v-for="item in recommendList"
+      v-for="(item, childIndex) in recommendList"
       :key="item.specialid"
       :info="item"
-      @clickitem="gitHomelist(item)"
+      @clickitem="gitHomelist(item, childIndex)"
       ></IndexRecommend>
+      <!-- 底部 -->
       <div class="my-icp" @click="xiugaistate">
           <a class="record" target="_blank">
               <img class="img" src="../../assets/icon/item-rank-other.png">
@@ -80,6 +81,7 @@ export default {
       // console.log(id)
     },
     getBanner () {
+      // 这个是上面的 引入的那个getBanner line 45
       getBanner()
         .then(res => {
           // 漫画岛项目的每个接口都有 code 字段
@@ -98,7 +100,7 @@ export default {
           alert('网络异常，请稍后重试')
         })
     },
-
+    // 获取主体部分的每一个分子
     getIndexRecommend () {
       getIndexRecommend()
         .then(res => {
@@ -114,11 +116,22 @@ export default {
         })
     },
     // ？？？？ 首页点击进详情页没有做.
-    gitHomelist (item) {
-      console.log(1)
-      const id = item.comicslist[0].bigbook_id
+    gitHomelist (item, childIndex) {
+      console.log(JSON.stringify(item))
+      // console.log(childIndex)
+      const id = item.comicslist[childIndex].bigbook_id
       this.$router.push(`/bigbookid?bigbookid=${id}`)
       // console.log(11, item.comicslist[0].bigbook_id)
+      // const arr = item.map((value, index) => {
+      //   return {
+      //     value, index
+      //   }
+      // })
+      // console.log(childIndex) // (4) [{…}, {…}, {…}, {…}]
+    //                     0: {value: {…}, index: 0}
+    //                     1: {value: {…}, index: 1}
+    //                     2: {value: {…}, index: 2}
+    //                     3: {value: {…}, index: 3}
     }
   },
 

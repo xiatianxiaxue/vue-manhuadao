@@ -3,7 +3,12 @@
     <normal-header title="VIP专区"></normal-header>
     <div class="vip-main">
       <section class="cartoon-list">
-        <div class="list-item"  v-for=" item in viplisttt" :key="item.id">
+        <div
+        class="list-item"
+        v-for=" item in viplisttt "
+        :key=" item.id "
+        @click="gobigbook(item.bigbook_id)"
+        >
           <div
             class="item-pic"
             :style="`background-image: url('${item.coverurl}')`"
@@ -52,7 +57,8 @@ export default {
           coverurl: item.coverurl,
           bigbook_name: item.bigbook_name,
           bigbook_author: item.bigbook_author,
-          bigbookview: item.bigbookview
+          bigbookview: item.bigbookview,
+          bigbook_id: item.bigbook_id
         }
       })
     }
@@ -71,6 +77,10 @@ export default {
           alert('网络异常, 请稍后再试')
         }
       })
+    },
+    gobigbook (bigbookIid) {
+      this.$router.push(`/bigbookid?bigbookid=${bigbookIid}`)
+      // console.log(bigbookIid)
     }
   },
   created () {
@@ -133,4 +143,5 @@ export default {
     }
   }
 }
+
 </style>
