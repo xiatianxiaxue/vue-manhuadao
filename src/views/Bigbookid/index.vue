@@ -55,7 +55,7 @@
     <section class="hot-recommend">
         <p class="recommend-title font-26">热门推荐</p>
         <div class="recommend-list">
-            <div class="list-item" v-for="item in hotlist" :key="item.bigbook_id" @click="gotobigboo">
+            <div class="list-item" v-for="item in hotlist" :key="item.bigbook_id" @click="gotobigboo(item.bigbook_id)">
                 <div class="item-pic" :style="`background-image: url(${item.coverurl});`"></div>
                 <p class="item-name font-26">{{ item.bigbook_name }}</p>
             </div>
@@ -1820,6 +1820,13 @@ export default {
     }
   },
   methods: {
+    // 点击推荐在进入 本业
+    gotobigboo (id) {
+      this.$router.push(`/bigbookid?bigbookid=${id}`)
+      this.getIntroduction()
+      this.getUserevaluate()
+      this.hotRecommend()
+    },
     // 获取详情首页的情况
     getIntroduction () {
       const bookstoreid = this.bookstoreid
@@ -1854,10 +1861,10 @@ export default {
       hotRecommend()
         .then(res => {
           this.hotlist = res.info.topBigBooks
-          console.log(1, res.info.topBigBooks)
+          // console.log(1, res.info.topBigBooks)
         })
         .catch(err => {
-          console.log(2)
+          // console.log(2)
           console.log(err)
         })
     },

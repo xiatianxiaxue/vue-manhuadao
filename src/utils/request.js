@@ -3,10 +3,10 @@ import axios from 'axios'
 
 // 创建一个 axios 的实例对象
 const instance = axios.create({
-  // 基准路径
-  baseURL: 'http://localhost:8080',
+  // 基准路径 配置远程和本地都能有的地址 或是改成线上地址也可以 http://47.92.38.67/
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://47.92.38.67/' : 'http://localhost:8080',
   // 超时时间的设置 ms
-  timeout: 5000
+  timeout: 7000
 })
 
 // 添加请求拦截器

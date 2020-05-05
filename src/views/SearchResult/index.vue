@@ -68,7 +68,7 @@ export default {
     Bobigbookid (bookstorid) {
       // this.$router.push(`https://m.manhuadao.cn/detail.html?bigbookid=${bookstoreid}&cpid=0`)
       // https://m.manhuadao.cn/detail.html?bigbookid=110650&cpid=0
-      this.$router.push(`/Bigbookid?bookstore_id=${bookstorid}`)
+      this.$router.push(`/Bigbookid?bigbookid=${bookstorid}`)
     }
   },
   created (keyword) {
