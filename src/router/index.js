@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+// 引入加载条插件
+import NProgress from 'nprogress'
+// 引入加载条的样式
+import 'nprogress/nprogress.css'
+// 路由懒加载 就是把同步换成异步就可以了
 import Home from '../views/Home'
 import Classify from '../views/Classify'
 import Favorite from '../views/Hello/Favorite'
@@ -15,11 +19,24 @@ import Vip from '../views/Vip'
 import Bigbookid from '../views/Bigbookid'
 import Aboutmy from '../views/Aboutmy'
 import Feedback from '../views/Feedback'
-// 引入加载条插件
-import NProgress from 'nprogress'
-// 引入加载条的样式
-import 'nprogress/nprogress.css'
-// 使用Router
+
+// const Home = () => ('../views/Home')
+// const Classify = () => ('../views/Classify')
+// const Favorite = () => ('../views/Hello/Favorite')
+// const History = () => ('../views/Hello/History')
+// const Login = () => ('../views/Login')
+// const My = () => ('../views/My')
+// const Ranking = () => ('../views/Ranking')
+// const Register = () => ('../views/Register')
+// const Search = () => ('../views/Search')
+// const SearchResult = () => ('../views/SearchResult')
+// const Vip = () => ('../views/Vip')
+// const Bigbookid = () => ('../views/Bigbookid')
+// const Aboutmy = () => ('../views/Aboutmy')
+// const Feedback = () => ('../views/Feedback')
+
+// 使用Router//
+//
 Vue.use(VueRouter)
 
 const router = new VueRouter({

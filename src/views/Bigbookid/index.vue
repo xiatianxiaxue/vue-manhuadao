@@ -11,7 +11,7 @@
     </header>
     <!-- 头部主体部分 -->
     <header class="detail-header header-cover" >
-      <div class="header-cover" :style="`background-image: url('${Introduction.comicsdetail[0].bigcoverurl}');`"></div>
+      <div class="header-cover" :style="`background-image: url('${Introduction.comicsdetail[0].coverurl}');`"></div>
       <div class="header-group">
           <div class="header-box">
               <div class="header-pic" :style="`background-image: url('${Introduction.comicsdetail[0].coverurl}');`"></div>
@@ -44,6 +44,7 @@
       >{{ item.name }}</div>
     </section>
   <!-- 主体部分 分三部分 1. 简介 2. 目录 3. 评价 -->
+  <!-- 1. 简介 -->
   <section class="detail-main" v-if="activeIndex === 0" :class="{'active': index === activeIndex}">
     <section class="detail-summary font-26">{{ Introduction.comicsdetail[0].bigbook_brief }}</section>
     <div class="introduce">
@@ -54,15 +55,9 @@
     <section class="hot-recommend">
         <p class="recommend-title font-26">热门推荐</p>
         <div class="recommend-list">
-            <div class="list-item">
-                <div class="item-pic" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/173734/173734_c6d2e07448574d86801f1ad97b39aa24.jpg&quot;);"></div>
-                <p class="item-name font-26">爆笑校园</p>
-            </div><div class="list-item">
-                <div class="item-pic" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/181650/181650_1a34cab7f2c84771a36db383d4110086.jpg&quot;);"></div>
-                <p class="item-name font-26">国民老公带回家 偷吻55次</p>
-            </div><div class="list-item">
-                <div class="item-pic" style="background-image: url(&quot;//img.manhuadao.cn/bookcenter/coverimages/167572/167572_64dd23f38e2743cdb9416fa4f8d3e15a.jpg&quot;);"></div>
-                <p class="item-name font-26">傲世九重天</p>
+            <div class="list-item" v-for="item in hotlist" :key="item.bigbook_id" @click="gotobigboo">
+                <div class="item-pic" :style="`background-image: url(${item.coverurl});`"></div>
+                <p class="item-name font-26">{{ item.bigbook_name }}</p>
             </div>
         </div>
     </section>
@@ -1806,14 +1801,22 @@ export default {
     return {
       title: this.$route.query.keyword,
       bookstoreid: this.$route.query.bigbookid,
+      // 书籍介绍信息
       Introduction: [],
+      // 用户评价留言信息
       Userevaluate: [],
       userid: 206335792,
       mulu: [{ id: 1, name: '简介' }, { id: 2, name: '目录' }, { id: 3, name: '评价' }],
       activeIndex: 0,
       subjectname: '',
       authorname: '',
+      comicsdetail: {},
+      // 热门推荐数据
       hotlist: []
+      // coverurl: this.viplisttt[0].coverurl,
+    //   key_name: '',
+    //   bigbook_author: '',
+    //   bigbookview: ''
     }
   },
   methods: {
@@ -1822,13 +1825,8 @@ export default {
       const bookstoreid = this.bookstoreid
       getIntroduction(bookstoreid)
         .then(res => {
-          // console.log(666, JSON.parse(unformat(res.info.comicsdetail)))
-          // if (res.code === 200) {
           this.Introduction = JSON.parse(unformat(res.info))
-          // this.subjectname = this.Introduction.comicsdetail[0].subject_name
-          // this.authorname = this.Introduction.comicsdetail[0].authoruserid
-          // console.log(this.Introduction[0].bigbook_author)
-          // }
+          this.comicsdetail = this.Introduction.comicsdetail
         })
         // .catch(err => {
         //   console.log(err)
@@ -1849,14 +1847,14 @@ export default {
     },
     // 获取热门推荐的 接口数据
     hotRecommend () {
-      const bookstoreid = this.bookstoreid
-      const subjectname = this.subjectname
-      const authorname = this.authorname
-      console.log(authorname, subjectname)
-      hotRecommend(authorname, subjectname, bookstoreid)
+      // const bookstoreid = this.bookstoreid
+      // const subjectname = this.subjectname
+      // const authorname = this.authorname
+      // console.log(authorname, subjectname)
+      hotRecommend()
         .then(res => {
-          this.hotlist = res.info.list
-          console.log(1)
+          this.hotlist = res.info.topBigBooks
+          console.log(1, res.info.topBigBooks)
         })
         .catch(err => {
           console.log(2)
@@ -1996,9 +1994,9 @@ body,html {
 .detail-header .bg,.detail-header .header-cover {
     width: 100%;
     height: 5.98666667rem;
-    -webkit-filter: blur(50px);
-    filter: blur(50px);
-    -webkit-backdrop-filter: brightness(5) blur(50px);
+    -webkit-filter: blur(50PX);
+    filter: blur(50PX);
+    -webkit-backdrop-filter: brightness(5) blur(50PX);
     position: absolute;
     // display: flex;
     z-index: 0;
@@ -2009,7 +2007,7 @@ body,html {
 .detail-header .header-cover {
     background-repeat: repeat;
     background-size: cover;
-    filter: blur(189px);
+    filter: blur(50PX);
     /* -moz-filter: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZmlsdGVyIGlkPSJibHVyIj4KICAgICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI1MCIvPgogICAgPC9maWx0ZXI+Cjwvc3ZnPg==#blur) */
 }
 // 111111111111111111111111111111111111111111111111111111111111111111
@@ -2122,11 +2120,10 @@ body,html {
 .detail-header1 .header-cover1 {
     width: 100%;
     height: 5.98666667rem;
-    /* background: url(../asset/detail/img_@2x.2b638692.png); */
     background-repeat: repeat;
     background-size: cover;
-    -webkit-filter: blur(50px);
-    filter: blur(50px);
+    -webkit-filter: blur(50PX);
+    filter: blur(50PX);
     position: absolute;
     z-index: -1;
     left: 0;

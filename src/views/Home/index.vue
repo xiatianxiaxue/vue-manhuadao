@@ -1,8 +1,11 @@
 <template>
   <div class="page-home">
-    <!-- <keep-alive > -->
+   <section class="go-top font-20" @click="backTop" v-show="backToTop">
+        <div class="icon-arrow-up"></div>顶部
+    </section>
     <index-header></index-header>
-    <div class="index-main">
+    <div class="betterscroll" ref="main">
+    <div class="index-main" >
       <!-- 轮播图 :autoplay='1000' -->
       <swiper class="my-swiper"  v-if="bannerList.length > 0">
         <swiper-item v-for="item in bannerList" :key="item.id"
@@ -11,16 +14,18 @@
           <img :src="item.imageurl" alt />
         </swiper-item>
       </swiper>
+      <!-- 导航 -->
       <index-nav></index-nav>
+      <!-- 首页列表 -->
       <!-- item.bigbook_id -->
-     <IndexRecommend
-      v-for="(item, childIndex) in recommendList"
+      <IndexRecommend
+      v-for="(item) in recommendList"
       :key="item.specialid"
       :info="item"
-      @clickitem="gitHomelist(item, childIndex)"
+      @clickitem="gitHomelist"
       ></IndexRecommend>
       <!-- 底部 -->
-      <div class="my-icp" @click="xiugaistate">
+      <div class="my-icp" >
           <a class="record" target="_blank">
               <img class="img" src="../../assets/icon/item-rank-other.png">
               <div >沪公网安备 31011202006214号</div>
@@ -28,7 +33,7 @@
           <div class="licence">增值电信业务经营许可证沪B2-20170022<br>网络文化经营许可证沪网文（2016）3206-227号<br>出版物经营许可证新出发沪批字第U7659号</div>
       </div>
     </div>
-    <!-- </keep-alive> -->
+    </div>
   </div>
 </template>
 
@@ -38,6 +43,7 @@
 // import Swiper from '@/components/Swiper/Swiper.vue'
 // import SwiperItem from '@/components/Swiper/SwiperItem.vue'
 // => // , gitHomelist,
+import BScroll from 'better-scroll'
 import { Swiper, SwiperItem } from '@/components/Swiper'
 import IndexNav from './components/IndexNav'
 import IndexRecommend from './components/IndexRecommend'
@@ -47,6 +53,13 @@ import { getBanner, getIndexRecommend } from '@/api/cartoon'
 // import { mapMutations } from 'vuex'
 export default {
   name: 'Home',
+  // props: {
+  //   // 外层组件上 recommendList 中的每一项元素
+  //   info: {
+  //     type: Object,
+  //     required: true
+  //   }
+  // },
   components: {
     Swiper,
     SwiperItem,
@@ -61,17 +74,19 @@ export default {
       // 1. 数据放在那里，data? props? computed? state? getter?
       // 2. 数据格式，string? object? number? array? ...
       bannerList: [],
-      bigbookid: '',
-      recommendList: []
+      // bigbookid: '',
+      recommendList: [],
+      backToTop: false
     }
   },
-  computed: {
-    // ...mapState(['name']),
-    // ...mapGetters(['setname'])
+  // 局部过滤器
+  filters: {
+    formatYi (value) {
+      // console.log('value: ', value)
+      return `${(value / 100000000).toFixed(2)}亿`
+    }
   },
   methods: {
-    xiugaistate () {
-    },
     // 1 点击跳转到 详情页  和 携带bigboolid
     swiperclk (bigbookid) {
       const index = bigbookid.indexOf('=')
@@ -116,29 +131,59 @@ export default {
         })
     },
     // ？？？？ 首页点击进详情页没有做.
-    gitHomelist (item, childIndex) {
-      console.log(JSON.stringify(item))
-      // console.log(childIndex)
-      const id = item.comicslist[childIndex].bigbook_id
+    gitHomelist (id) {
+      console.log(id)
       this.$router.push(`/bigbookid?bigbookid=${id}`)
-      // console.log(11, item.comicslist[0].bigbook_id)
-      // const arr = item.map((value, index) => {
-      //   return {
-      //     value, index
-      //   }
-      // })
-      // console.log(childIndex) // (4) [{…}, {…}, {…}, {…}]
-    //                     0: {value: {…}, index: 0}
-    //                     1: {value: {…}, index: 1}
-    //                     2: {value: {…}, index: 2}
-    //                     3: {value: {…}, index: 3}
+    },
+    // 显示回到顶部按钮
+    scrollToTop () {
+      const scrollTop =
+           window.pageYOffset ||
+           document.documentElement.scrollTop ||
+           document.body.scrollTop
+      const browserHeight = window.outerHeight
+      console.log(2, scrollTop, browserHeight)
+      if (scrollTop > browserHeight) {
+        console.log(2)
+        this.backToTop = true
+      } else {
+        console.log(3)
+        this.backToTop = false
+      }
+    },
+    // 回到顶部
+    backTop () {
+      // this.scroll.scrollTo(0, 0, 500)
+      console.log(1, this.scroll)
+      const back = setInterval(() => {
+        if (document.body.scrollTop || document.documentElement.scrollTop) {
+          document.body.scrollTop -= 100
+          document.documentElement.scrollTop -= 100
+        } else {
+          clearInterval(back)
+        }
+      }, 1000)
     }
   },
-
   created () {
     // console.log(this.$route.recommendList)
     this.getBanner()
     this.getIndexRecommend()
+  },
+  mounted () {
+    window.addEventListener('scroll', this.scrollToTop)
+    // 在用插件的时候 会默认阻止点击事件 需要去配置一下click ：true 即可
+    const options = {
+      click: true, // 可以点击事件
+      tap: true,
+      mouseWheel: true // 乐意滑轮滚动
+    }
+    /* eslint-disable */
+    let scroll = new BScroll('.betterscroll', options)
+    /* eslint-enable */
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.scrollToTop)
   }
 }
 </script>
@@ -149,17 +194,33 @@ export default {
 // 使用 @ 别名时，需要加一个 ~ 符号
 // !!!! @vue/cli 4.3.1 不需要加 ~
 @import "@/assets/styles/mixins.scss";
-
+ // .betterscroll::-webkit-scrollbar {
+ //            display: block;
+ //        }
+.go-top {
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: rgba(0,0,0,.5);
+    border-radius: 50%;
+    text-align: center;
+    position: fixed;
+    z-index: 999;
+    bottom: 2.53333333rem;
+    right: .16rem;
+    color: #fff;
+  }
 .page-home {
   display: flex;
   flex-direction: column;
   height: 100%;
-
-  .index-main {
+  .betterscroll{
     flex: 1;
     overflow-y: auto;
   }
-
+  // .index-main {
+  //   flex: 1;
+  //   overflow-y: auto;
+  // }
   .my-swiper img {
     width: 100%;
   }
@@ -193,5 +254,181 @@ export default {
       margin: .13333333rem 0 0;
       text-align: center
   }
+}
+
+.index-recommend {
+  .recommend-divide {
+    height: 10px;
+    background-color: #f4f4f4;
+  }
+  .recommend-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 18px;
+    .title-group {
+      display: flex;
+      align-items: center;
+      .title-icon {
+        width: 22px;
+        height: 22px;
+        margin-right: 5px;
+      }
+      .title-text {
+        color: #3a3a3a;
+        font-weight: 500;
+      }
+    }
+    .title-more {
+      color: #b0b0b0;
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .recommend-type-1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    .item {
+      width: 174px;
+      height: 218px;
+      margin-bottom: 16px;
+      .item-pic {
+        width: 174px;
+        height: 174px;
+        margin-bottom: 4px;
+        position: relative;
+      }
+      .item-name {
+        max-width: 100%;
+        margin-bottom: 2px;
+        color: #3a3a3a;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .item-text {
+        max-width: 100%;
+        color: #8d8d8d;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+  .recommend-type-3 {
+    padding: 0 10px;
+    box-sizing: border-box;
+    .item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 16px;
+      position: relative;
+      .item-pic {
+        width: 154px;
+        height: 90px;
+      }
+      .text-group {
+        width: 158px;
+        margin-left: 42px;
+        .item-name {
+          margin-bottom: 4px;
+          color: #3a3a3a;
+          font-weight: 500;
+        }
+        .item-hot {
+          color: #b0b0b0;
+          margin-bottom: 15px;
+          .hot-hot {
+            color: red;
+          }
+        }
+        .item-text {
+          color: #8d8d8d;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
+      .ranking-group {
+        .item-ranking {
+          width: 25px;
+          height: 25px;
+          background-repeat: no-repeat;
+          background-position: top;
+          background-size: 100%;
+          position: absolute;
+          top: 4px;
+          left: 168px;
+        }
+        .item-ranking-other {
+          width: 25px;
+          height: 25px;
+          background-repeat: no-repeat;
+          background-position: top;
+          background-size: 100%;
+          position: absolute;
+          top: 6px;
+          left: 168px;
+        }
+        .item-ranking-1 {
+          background-image: url("~@/assets/icon/rank-1.png");
+        }
+        .item-ranking-2 {
+          background-image: url("~@/assets/icon/rank-2.png");
+        }
+        .item-ranking-3 {
+          background-image: url("~@/assets/icon/rank-3.png");
+        }
+        .item-ranking-4 {
+          background-image: url("~@/assets/icon/rank-4.png");
+        }
+        .item-ranking-5 {
+          background-image: url("~@/assets/icon/rank-5.png");
+        }
+      }
+    }
+  }
+  .recommend-type-5 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    .item {
+      width: 112px;
+      height: 218px;
+      margin-bottom: 16px;
+      .item-pic {
+        width: 112px;
+        height: 148px;
+        margin-bottom: 4px;
+      }
+      .item-title {
+        max-width: 100%;
+        margin-bottom: 2px;
+        color: #3a3a3a;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .item-text {
+        max-width: 100%;
+        color: #8d8d8d;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+     }
+   }
 }
 </style>

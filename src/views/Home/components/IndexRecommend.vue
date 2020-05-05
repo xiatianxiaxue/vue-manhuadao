@@ -10,8 +10,7 @@
     </div>
 
     <!-- 一个二个   -->
-    <div
-    v-if=" info.comicsviewtype === 1" class="recommend-type-1">
+    <div v-if=" info.comicsviewtype === 1" class="recommend-type-1">
       <div class="item"
       v-for="childItem in info.comicslist"
       :key="childItem.bigbook_id"
@@ -22,42 +21,30 @@
         <p class="item-text font-24">{{ JSON.parse(childItem.extension).recommendwords }}</p>
       </div>
     </div>
-<!--    <div
-    v-if="info.comicsviewtype === 1" class="recommend-type-1">
-      <div class="item"
-      v-for="childItem in info.comicslist"
-      :key="childItem.bigbook_id"
-      @click="clickitem(childItem.bigbook_id)"
-      >
-        <img class="item-pic" :src="JSON.parse(childItem.extension).xsyzfx" />
-        <p class="item-name font-28">{{ childItem.bigbook_name }}</p>
-        <p class="item-text font-24">{{ JSON.parse(childItem.extension).recommendwords }}</p>
-      </div>
-    </div> -->
-
     <!-- 一行三个 -->
     <div v-if="info.comicsviewtype === 5" class="recommend-type-5">
       <div
       class="item "
       v-for="childItem in info.comicslist"
       :key="childItem.bigbook_id"
-      @click="clickitem()"
+      @click="clickitem(childItem.bigbook_id)"
       >
         <img class="item-pic" :src="childItem.coverurl" />
         <p class="item-name font-28">{{ childItem.bigbook_name }}</p>
         <p class="item-text font-24">{{ childItem.key_name }}</p>
       </div>
     </div>
-
     <!-- 一行一个 -->
     <div v-if="info.comicsviewtype === 3" class="recommend-type-3">
       <div
         class="item"
         v-for="(childItem, childIndex) in info.comicslist"
         :key="childItem.bigbook_id"
-        @click="clickitem(childIndex)"
+        @click="clickitem(childItem.bigbook_id)"
       >
-        <img class="item-pic" :src="JSON.parse(childItem.extension).scfk344_202" />
+        <!-- 图片懒加载  :src  换成v-lazy 网速慢的时候会出现这个设定好的图片-->
+        <img class="item-pic" v-lazy="JSON.parse(childItem.extension).scfk344_202" />
+        <!-- <img class="item-pic" :src="JSON.parse(childItem.extension).scfk344_202" /> -->
         <div class="ranking-group">
           <div class="item-ranking" :class="`item-ranking-${childIndex + 1}`"></div>
         </div>
@@ -78,7 +65,11 @@
 <script>
 export default {
   name: 'IndexRecommend',
-
+  data () {
+    return {
+      message: '我是要传递的数据'
+    }
+  },
   props: {
     // 外层组件上 recommendList 中的每一项元素
     info: {
@@ -88,8 +79,8 @@ export default {
   },
   // childItem.bigbook_id
   methods: {
-    clickitem (childIndex, bigbookid) {
-      this.$emit('clickitem', { childIndex, bigbookid })
+    clickitem (data) {
+      this.$emit('clickitem', data)
     }
 
   },
@@ -279,4 +270,5 @@ export default {
     }
   }
 }
+
 </style>

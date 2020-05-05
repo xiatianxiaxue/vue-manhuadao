@@ -280,14 +280,14 @@ export const hotRecommend = (authorname, subjectname, bookstoreid) => {
     method: 'POST',
     params: {
       apptype: 8,
-      appversion: '1.0',
+      appversion: 1.0,
       channel: 'web-app'
     },
     // 这个口不需要去解码不用format*
     data: {
-      subjectname: subjectname,
-      authorname: authorname,
-      bigbookid: bookstoreid
+      subjectname: ['热血'],
+      authorname: [12384267],
+      bigbookid: ['13544']
     }
   })
 }
